@@ -4,8 +4,6 @@ using System.Collections;
 
 public class RaceManager : MonoBehaviour 
 {
-
-
 	[SerializeField]
 	private GameObject _carContainer;
 
@@ -18,11 +16,12 @@ public class RaceManager : MonoBehaviour
 	[SerializeField]
 	private int _endCountdown;
 
+	private StyleManager _styleManager;
+
 	// Use this for initialization
 	void Awake () 
 	{
 		CarActivation(false);
-
 	}
 	
 	void Start()

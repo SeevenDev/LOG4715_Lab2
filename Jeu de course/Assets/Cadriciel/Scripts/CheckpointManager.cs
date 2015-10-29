@@ -49,6 +49,9 @@ public class CheckpointManager : MonoBehaviour
 					if (IsPlayer(car))
 					{
 						GetComponent<RaceManager>().Announce("Tour " + (carData.lap+1).ToString());
+
+						// Mec1. Style :
+						GetComponent<StyleManager>().printStyle(100);
 					}
 
 					if (carData.lap >= _totalLaps)
