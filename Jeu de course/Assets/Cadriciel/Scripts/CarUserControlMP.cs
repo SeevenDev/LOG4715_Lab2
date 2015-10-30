@@ -1,8 +1,24 @@
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 
 [RequireComponent(typeof(CarController))]
 public class CarUserControlMP : MonoBehaviour
 {
+	struct Frolage
+	{
+		public bool _entree, _crash;
+
+		public Frolage(bool entree, bool crash) {
+			_entree = entree;
+			_crash = crash;
+		}
+	}
+
+	// ==========================================
+	// == Attributs
+	// ==========================================
+
 	// the car controller we want to use
 	private CarController car;
 
@@ -13,16 +29,31 @@ public class CarUserControlMP : MonoBehaviour
 	private string horizontal = "Horizontal";
 
 	private StyleManager styleManager;
-	private bool _isCrashing = false;
-	
+
+	[SerializeField]
+	private float rayonDeFrolage = 1.0f;
+
+	[SerializeField]
+	private bool afficherRayonDeFrolage = false;
+
+	private Hashtable voituresEnFrolage = new Hashtable();
+
+	// ==========================================
+	// == Awake
+	// ==========================================
+
 	void Awake ()
 	{
-		Debug.Log ("Awake in CarUserControlMP");
 		// get the car controller
 		car = GetComponent<CarController>();
+
 		styleManager = GetComponent<StyleManager>();
 	}
-	
+
+	// ==========================================
+	// == FixedUpdate
+	// ==========================================
+
 	void FixedUpdate()
 	{
 		// pass the input to the car!
@@ -34,6 +65,63 @@ public class CarUserControlMP : MonoBehaviour
 		float v = Input.GetAxis(vertical);
 		#endif
 		car.Move(h,v);
+
+		// === Vérifier si l'on frole une voiture ===
+
+		// --- Début du frolage ---
+
+		HashSet<string> voituresEnFrolageCurrentFrame = new HashSet<string>();
+
+		Collider[] collidersProches = Physics.OverlapSphere (car.transform.position, rayonDeFrolage);
+		for (int i = 0; i < collidersProches.Length; i++) 
+		{
+			Transform objetProche = collidersProches[i].transform;
+			if (objetProche.root.name == "Cars") 
+			{
+				string nomVoitureProche = objetProche.parent.parent.name;
+				if (nomVoitureProche != "Joueur 1" && nomVoitureProche != "Cars") 
+				{
+					if (!voituresEnFrolage.Contains (nomVoitureProche)) {
+						// Si la voiture entre en frolage pour la première frame :
+						voituresEnFrolage.Add (nomVoitureProche, new Frolage());
+					}
+					voituresEnFrolageCurrentFrame.Add(nomVoitureProche);
+				}
+			}
+		}
+
+		// --- Fin du frolage ---
+
+		// Copie du HashSet pour ne aps le modifier pendant qu'on l'itère :
+		string[] voituresEnFrolageArray = new string[voituresEnFrolage.Count];
+		voituresEnFrolage.Keys.CopyTo (voituresEnFrolageArray, 0);
+
+		// Pour chaque voiture que le joueur a commencé à froler, 
+		// vérifier si on la frole toujours pendant cette frame :
+		for(int i = 0; i < voituresEnFrolageArray.Length; i++) 
+		{
+			if (!voituresEnFrolageCurrentFrame.Contains(voituresEnFrolageArray[i])) 
+			{
+				// Le joueur ne frole plus la voiture à partir de cette frame...
+				if (! ((Frolage)voituresEnFrolage[voituresEnFrolageArray[i]])._crash) 
+				{
+					// S'il n'y a eu aucun crash : on comptabilise la figure
+					styleManager.logStyle(40, "Frolage");
+				}
+				// et supprime la voiture de la Hashtable :
+				voituresEnFrolage.Remove(voituresEnFrolageArray[i]);
+			}
+		}
+	}
+
+	void OnDrawGizmos() 
+	{
+		if (!Application.isPlaying) return;
+
+		if (afficherRayonDeFrolage) {
+			Gizmos.color = Color.red;
+			Gizmos.DrawWireSphere (car.transform.position, rayonDeFrolage);
+		}
 	}
 
 	// ==========================================
@@ -42,17 +130,22 @@ public class CarUserControlMP : MonoBehaviour
 
 	void OnCollisionEnter(Collision theCollision)
 	{
-		if (theCollision.transform.root.name == "Cars")
+		string rootName = theCollision.transform.root.name;
+		if (rootName == "Cars")
 		{
-			_isCrashing = true;
+			// On comptabilise la figure
+			// et on enlève la voiture du HashSet de frolage :
+			string name = theCollision.transform.name;
 			styleManager.logStyle (20, "Crash !");
+			voituresEnFrolage[name] = new Frolage(true, true);
+			Debug.Log("Crash avec " + name);
 		} 
 	}
 	void OnCollisionExit(Collision theCollision)
 	{
 		if (theCollision.transform.root.name == "Cars")
 		{
-			_isCrashing = false;
+			// _isCrashing = false;
 		} 
 	}
 }

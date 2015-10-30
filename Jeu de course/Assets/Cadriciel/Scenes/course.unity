@@ -8523,6 +8523,7 @@ GameObject:
   - 114: {fileID: 481286553}
   - 114: {fileID: 481286552}
   - 114: {fileID: 481286556}
+  - 114: {fileID: 481286558}
   m_Layer: 8
   m_Name: Joueur 1
   m_TagString: Player
@@ -8537,7 +8538,7 @@ Transform:
   m_PrefabInternal: {fileID: 527691314}
   m_GameObject: {fileID: 481286549}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -16.9579048, y: -21.4629822, z: -105.289825}
+  m_LocalPosition: {x: -16.9579048, y: -21.4599991, z: -105.289825}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2038493568}
@@ -8670,6 +8671,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   vertical: Vertical
   horizontal: Horizontal
+  rayonDeFrolage: 3
+  afficherRayonDeFrolage: 1
 --- !u!54 &481286557
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -8686,6 +8689,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &481286558
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 481286549}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e5023b62eb151941ba4a337d4c0345a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _totalAfficheur: {fileID: 1175612258}
+  _info: {fileID: 1103107026}
+  _infoDuration: 3
 --- !u!1 &487389443
 GameObject:
   m_ObjectHideFlags: 0
@@ -9137,7 +9154,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400032, guid: 0e7ee4df08df88c4880f43398f9ad2c2, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -21.4629822
+      value: -21.4599991
       objectReference: {fileID: 0}
     - target: {fileID: 400032, guid: 0e7ee4df08df88c4880f43398f9ad2c2, type: 2}
       propertyPath: m_LocalPosition.z
@@ -9218,6 +9235,10 @@ Prefab:
     - target: {fileID: 5400000, guid: 0e7ee4df08df88c4880f43398f9ad2c2, type: 2}
       propertyPath: m_UseGravity
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400030, guid: 0e7ee4df08df88c4880f43398f9ad2c2, type: 2}
+      propertyPath: maxSpeed
+      value: 60
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 11400026, guid: 0e7ee4df08df88c4880f43398f9ad2c2, type: 2}
@@ -9479,7 +9500,6 @@ GameObject:
   - 114: {fileID: 557694390}
   - 114: {fileID: 557694392}
   - 114: {fileID: 557694393}
-  - 114: {fileID: 557694394}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -9544,20 +9564,6 @@ MonoBehaviour:
   _carContainer: {fileID: 1158375330}
   _checkPointCount: 3
   _totalLaps: 3
---- !u!114 &557694394
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 557694389}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e5023b62eb151941ba4a337d4c0345a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _totalAfficheur: {fileID: 1175612258}
-  _info: {fileID: 1103107026}
-  _infoDuration: 5
 --- !u!1 &561691734
 GameObject:
   m_ObjectHideFlags: 0
@@ -18215,7 +18221,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400004, guid: baec086904791744185aaa07a6cf55c2, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: .00298309326
       objectReference: {fileID: 0}
     - target: {fileID: 400004, guid: baec086904791744185aaa07a6cf55c2, type: 2}
       propertyPath: m_LocalPosition.z
@@ -33724,7 +33730,7 @@ Transform:
   m_PrefabInternal: {fileID: 970742417}
   m_GameObject: {fileID: 1873886570}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.24172783, y: 0, z: 25.9920959}
+  m_LocalPosition: {x: 2.24172783, y: .00298309326, z: 25.9920959}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 477844860}
@@ -36816,6 +36822,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   vertical: Vertical2
   horizontal: Horizontal2
+  rayonDeFrolage: 1
+  afficherRayonDeFrolage: 0
 --- !u!114 &1977983690
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39265,7 +39273,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 126
   m_CollisionDetection: 0
 --- !u!1001 &2099877694
 Prefab:
@@ -40232,6 +40240,10 @@ Prefab:
     - target: {fileID: 11400004, guid: ce87ff1a55e61844fbd4cf92e6653b8f, type: 2}
       propertyPath: maxSpeedSteerAngle
       value: .156000003
+      objectReference: {fileID: 0}
+    - target: {fileID: 5400000, guid: ce87ff1a55e61844fbd4cf92e6653b8f, type: 2}
+      propertyPath: m_Constraints
+      value: 126
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ce87ff1a55e61844fbd4cf92e6653b8f, type: 2}
