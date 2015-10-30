@@ -9557,7 +9557,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _totalAfficheur: {fileID: 1175612258}
   _info: {fileID: 1103107026}
-  _infoDuration: 1
+  _infoDuration: 5
 --- !u!1 &561691734
 GameObject:
   m_ObjectHideFlags: 0
@@ -20216,15 +20216,15 @@ GUIText:
   m_Enabled: 1
   serializedVersion: 3
   m_Text: 
-  m_Anchor: 0
-  m_Alignment: 1
-  m_PixelOffset: {x: 205, y: -55}
+  m_Anchor: 8
+  m_Alignment: 2
+  m_PixelOffset: {x: 350, y: -100}
   m_LineSpacing: 1
   m_TabSize: 4
   m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
   m_Material: {fileID: 0}
-  m_FontSize: 40
-  m_FontStyle: 1
+  m_FontSize: 35
+  m_FontStyle: 0
   m_Color:
     serializedVersion: 2
     rgba: 4285005815
@@ -21667,9 +21667,9 @@ GUIText:
   m_Enabled: 1
   serializedVersion: 3
   m_Text: 
-  m_Anchor: 0
-  m_Alignment: 1
-  m_PixelOffset: {x: 220, y: -100}
+  m_Anchor: 8
+  m_Alignment: 2
+  m_PixelOffset: {x: 350, y: -150}
   m_LineSpacing: 1
   m_TabSize: 4
   m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
