@@ -16,8 +16,6 @@ public class RaceManager : MonoBehaviour
 	[SerializeField]
 	private int _endCountdown;
 
-	private StyleManager _styleManager;
-
 	// Use this for initialization
 	void Awake () 
 	{
@@ -90,5 +88,9 @@ public class RaceManager : MonoBehaviour
 			car.enabled = activate;
 		}
 
+	}
+
+	public GameObject getCarContainer() {
+		return _carContainer;
 	}
 }

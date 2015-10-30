@@ -51,7 +51,7 @@ public class CheckpointManager : MonoBehaviour
 						GetComponent<RaceManager>().Announce("Tour " + (carData.lap+1).ToString());
 
 						// Mec1. Style :
-						GetComponent<StyleManager>().logStyle(100, "Tour complet");
+						car.GetComponent<StyleManager>().logStyle(100, "Tour complet");
 					}
 
 					if (carData.lap >= _totalLaps)

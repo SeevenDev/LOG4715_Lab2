@@ -39,9 +39,11 @@ public class StyleManager : MonoBehaviour
 	// == Attributs
 	// ==========================================
 
-	int _points;
+	private GameObject _joueur1;
 
-	Queue _log = new Queue();
+	private int _points;
+
+	private Queue _log = new Queue();
 
 	[SerializeField]
 	private GUIText _totalAfficheur; // afficheur du total des points de style
@@ -61,7 +63,6 @@ public class StyleManager : MonoBehaviour
 		Debug.Log ("Start de StyleManager");
 		_points = 0;
 		updateStyle ();
-
 		// StartCoroutine (testCorout());
 	}
 
@@ -97,6 +98,7 @@ public class StyleManager : MonoBehaviour
 				{
 					// On supprime la ligne expirée de la Queue :
 					Log currentLine = (Log)_log.Dequeue ();
+					currentLine._timer.Stop();
 					allGood = false;
 
 					// On comptabilise les points et on met à jour le total :

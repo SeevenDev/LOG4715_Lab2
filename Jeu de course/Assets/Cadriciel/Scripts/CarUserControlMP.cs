@@ -3,20 +3,25 @@ using UnityEngine;
 [RequireComponent(typeof(CarController))]
 public class CarUserControlMP : MonoBehaviour
 {
-	private CarController car;  // the car controller we want to use
+	// the car controller we want to use
+	private CarController car;
 
 	[SerializeField]
 	private string vertical = "Vertical";
 
 	[SerializeField]
 	private string horizontal = "Horizontal";
+
+	private StyleManager styleManager;
+	private bool _isCrashing = false;
 	
 	void Awake ()
 	{
+		Debug.Log ("Awake in CarUserControlMP");
 		// get the car controller
 		car = GetComponent<CarController>();
+		styleManager = GetComponent<StyleManager>();
 	}
-	
 	
 	void FixedUpdate()
 	{
@@ -29,5 +34,25 @@ public class CarUserControlMP : MonoBehaviour
 		float v = Input.GetAxis(vertical);
 		#endif
 		car.Move(h,v);
+	}
+
+	// ==========================================
+	// == Collision handlers
+	// ==========================================
+
+	void OnCollisionEnter(Collision theCollision)
+	{
+		if (theCollision.transform.root.name == "Cars")
+		{
+			_isCrashing = true;
+			styleManager.logStyle (20, "Crash !");
+		} 
+	}
+	void OnCollisionExit(Collision theCollision)
+	{
+		if (theCollision.transform.root.name == "Cars")
+		{
+			_isCrashing = false;
+		} 
 	}
 }
