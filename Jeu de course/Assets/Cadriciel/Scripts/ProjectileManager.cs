@@ -15,7 +15,7 @@ public class ProjectileManager : MonoBehaviour
 	private GameObject carapaceVerte;
 
 	[SerializeField]
-	private float forceVerte = 100.0f;
+	private float vitesseVerte = 100.0f;
 
 	[SerializeField]
 	private float rayonExplosion = 1.0f;
@@ -25,6 +25,9 @@ public class ProjectileManager : MonoBehaviour
 
 	[SerializeField]
 	private float forceSoulevante = 2.0f;
+
+	[SerializeField]
+	private int nbMaxRebonds = 3;
 
 	// ==========================================
 	// == Start
@@ -52,36 +55,16 @@ public class ProjectileManager : MonoBehaviour
 			projectile.rigidbody.useGravity = true;
 			
 			// Positionnement initial du projectile : 
-			projectile.transform.position = transform.position + transform.forward * 3;
+			projectile.transform.position = transform.position + transform.forward * 4;
 
-			StartCoroutine(carapaceVerteCorout(projectile));
-		}
-	}
+			// Ajout du composant ProjectileCollider pour gérer les collisions et les déplacements :
 
-	IEnumerator carapaceVerteCorout(GameObject projectile)
-	{
-		Vector3 force = transform.forward * forceVerte;
-
-		ProjectileCollider explosion = projectile.AddComponent<ProjectileCollider>() as ProjectileCollider;
-		explosion.setExplosion (forceExplosion, rayonExplosion, forceSoulevante);
-
-		// Force initiale :
-		projectile.rigidbody.AddForce (force);
-
-		while (projectile != null) 
-		{
-			// Faire bouger le projectile :
-			/*while (projectile.GetComponent<Rigidbody>().velocity.magnitude < force.magnitude) 
-			{
-				projectile.GetComponent<Rigidbody> ().velocity += force / 30;
-				yield return true;
-			}*/
-
-			Rigidbody rb = projectile.rigidbody;
-			rb.velocity = new Vector3(force.x, rb.velocity.y, force.z);
-			rb.AddForce(Physics.gravity);
-
-			yield return true;
+			Vector3 vitesseInitiale = transform.forward * vitesseVerte;
+			
+			ProjectileCollider collider = projectile.AddComponent<ProjectileCollider>() as ProjectileCollider;
+			collider.setExplosion (forceExplosion, rayonExplosion, forceSoulevante);
+			collider.setVelocity (vitesseVerte, vitesseInitiale);
+			collider.setNbMaxRebonds(nbMaxRebonds);
 		}
 	}
 }
