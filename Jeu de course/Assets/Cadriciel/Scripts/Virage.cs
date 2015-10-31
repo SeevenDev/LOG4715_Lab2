@@ -1,12 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Virage : MonoBehaviour {
-	
-
+public class Virage : MonoBehaviour 
+{
 	[SerializeField]
 	private GUIText virage;
-
+	
 	// Use this for initialization
 	void Start () {
 		Debug.Log ("z: " + transform.position);
@@ -18,11 +17,11 @@ public class Virage : MonoBehaviour {
 		Debug.Log ("z: " + transform.position);
 		virage.text = getIndication ();
 	}
-
+	
 	public string getIndication() {
 		var x = transform.position.x;
 		var z = transform.position.z;
-
+		
 		//Premier virage
 		if (x > -20 && x < 20 && z > 160 && z < 190) {
 			return "1.LEFT";

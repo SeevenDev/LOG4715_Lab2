@@ -1,3 +1,10 @@
+# Ignorations :
 Jeu de course/Temp
 Jeu de course/Library
-Jeu de course/Assets/Standard Assets
+Jeu de course/Assets/Standard Assets/Particles/*
+
+# Non-ignorations :
+!Jeu de course/Assets/Standard Assets/Particles.meta
+!Jeu de course/Assets/Standard Assets/Particles/Misc
+!Jeu de course/Assets/Standard Assets/Particles/Misc.meta
+

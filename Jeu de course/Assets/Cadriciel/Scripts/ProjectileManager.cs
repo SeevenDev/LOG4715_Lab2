@@ -13,9 +13,25 @@ public class ProjectileManager : MonoBehaviour
 	// ==========================================
 
 	private GameObject carapaceVerte;
+	private GameObject carapaceRouge;
 
 	[SerializeField]
-	private float forceVerte = 100.0f;
+	private float vitesseVerte = 100.0f;
+
+	[SerializeField]
+	private float vitesseRouge = 80.0f;
+
+	[SerializeField]
+	private float rayonExplosion = 1.0f;
+	
+	[SerializeField]
+	private float forceExplosion = 2.0f;
+
+	[SerializeField]
+	private float forceSoulevante = 2.0f;
+
+	[SerializeField]
+	private int nbMaxRebonds = 3;
 
 	// ==========================================
 	// == Start
@@ -24,6 +40,7 @@ public class ProjectileManager : MonoBehaviour
 	void Start () 
 	{
 		carapaceVerte = Resources.Load ("CarapaceVerte") as GameObject;
+		carapaceRouge = Resources.Load ("CarapaceRouge") as GameObject;
 	}
 	
 	// ==========================================
@@ -34,37 +51,49 @@ public class ProjectileManager : MonoBehaviour
 	{
 		// === Utilisation d'un projectile ===
 
+		GameObject projectile;
+
 		// --- Carapace Verte ---
 
 		if (Input.GetMouseButtonDown (0)) 
 		{
 			// Instanciation de l'objet Carapace Verte :
-			GameObject projectile = Instantiate(carapaceVerte) as GameObject;
+			projectile = Instantiate(carapaceVerte) as GameObject;
+			projectile.rigidbody.useGravity = true;
 			
 			// Positionnement initial du projectile : 
-			projectile.transform.position = transform.position + transform.forward * 5;
+			projectile.transform.position = transform.position + transform.forward * 4;
 
-			StartCoroutine(carapaceVerteCorout(projectile));
+			// Ajout du composant ProjectileCollider pour gérer les collisions et les déplacements :
+
+			Vector3 vitesseInitiale = transform.forward * vitesseVerte;
+			
+			ProjectileCollider collider = projectile.AddComponent<ProjectileCollider>() as ProjectileCollider;
+			collider.setExplosion (forceExplosion, rayonExplosion, forceSoulevante);
+			collider.setVelocity (vitesseVerte, vitesseInitiale);
+			collider.setMode(ProjectileCollider.Mode.BOUNCING);
+			collider.setNbMaxRebonds(nbMaxRebonds);
 		}
-	}
 
-	IEnumerator carapaceVerteCorout(GameObject projectile)
-	{
-		Vector3 force = transform.forward * forceVerte;
+		// --- Carapace Rouge ---
 
-		projectile.AddComponent<ProjectileCollider>();
-
-		while (projectile != null) 
+		else if (Input.GetMouseButtonDown (1)) 
 		{
-			// Faire bouger le projectile :
-			/*while (projectile.GetComponent<Rigidbody>().velocity.magnitude < force.magnitude) 
-			{
-				projectile.GetComponent<Rigidbody> ().velocity += force / 30;
-				yield return true;
-			}*/
+			// Instanciation de l'objet Carapace Rouge :
+			projectile = Instantiate(carapaceRouge) as GameObject;
+			projectile.rigidbody.useGravity = true;
+			
+			// Positionnement initial du projectile : 
+			projectile.transform.position = transform.position + transform.forward * 4;
 
-			projectile.GetComponent<Rigidbody>().velocity = force;
-			yield return true;
+			// Ajout du composant ProjectileCollider pour gérer les collisions et les déplacements :
+			
+			Vector3 vitesseInitiale = transform.forward * vitesseRouge;
+			
+			ProjectileCollider collider = projectile.AddComponent<ProjectileCollider>() as ProjectileCollider;
+			collider.setExplosion (forceExplosion, rayonExplosion, forceSoulevante);
+			collider.setVelocity (vitesseRouge, vitesseInitiale);
+			collider.setMode(ProjectileCollider.Mode.HOMING_DEVICE);
 		}
 	}
 }
