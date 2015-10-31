@@ -50,6 +50,7 @@
      <Compile Include="Assets\Cadriciel\Scripts\Checkpoint.cs" />
      <Compile Include="Assets\Cadriciel\Scripts\CheckpointManager.cs" />
      <Compile Include="Assets\Cadriciel\Scripts\MultiplayerMode.cs" />
+     <Compile Include="Assets\Cadriciel\Scripts\ProjectileCollider.cs" />
      <Compile Include="Assets\Cadriciel\Scripts\ProjectileManager.cs" />
      <Compile Include="Assets\Cadriciel\Scripts\RaceManager.cs" />
      <Compile Include="Assets\Cadriciel\Scripts\Speedometer.cs" />
@@ -132,6 +133,7 @@
      <None Include="Assets\Sample Assets\Effects\Image Effects (Pro Only)\Shaders\_DepthOfField\DepthOfFieldScatter.shader" />
      <None Include="Assets\Sample Assets\Effects\Tessellation Shaders\Shaders\BumpedSpecularSmooth.shader" />
      <None Include="Assets\Sample Assets\Effects\Light Shafts\Shaders\Shared.cginc" />
+     <None Include="Assets\Standard Assets\Particles\Sources\Shaders\Particle Alpha Blend (Queue +100).shader" />
      <None Include="Assets\Sample Assets\Effects\Light Shafts\Shaders\Coord.shader" />
      <None Include="Assets\Sample Assets\Effects\Image Effects (Pro Only)\Shaders\_DepthOfField\DepthOfFieldDX11.shader" />
      <None Include="Assets\Sample Assets\Vehicles\Car\Shaders\DiffuseReflectiveShader.shader" />

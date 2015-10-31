@@ -764,7 +764,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400004, guid: 39bad9409a26955448ed6b7943f53c9a, type: 2}
       propertyPath: m_RootOrder
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 10800002, guid: 39bad9409a26955448ed6b7943f53c9a, type: 2}
       propertyPath: m_Intensity
@@ -8526,6 +8526,7 @@ GameObject:
   - 114: {fileID: 481286552}
   - 114: {fileID: 481286556}
   - 114: {fileID: 481286558}
+  - 114: {fileID: 481286559}
   m_Layer: 8
   m_Name: Joueur 1
   m_TagString: Player
@@ -8707,6 +8708,18 @@ MonoBehaviour:
   _totalAfficheur: {fileID: 1175612258}
   _info: {fileID: 1103107026}
   _infoDuration: 3
+--- !u!114 &481286559
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 481286549}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7b7e7d0e25042a4e9622c9012124016, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  forceVerte: 100
 --- !u!1 &487389443
 GameObject:
   m_ObjectHideFlags: 0
@@ -18712,7 +18725,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 76d89ae3180ce424ba0da8fc43e02035, type: 2}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 76d89ae3180ce424ba0da8fc43e02035, type: 2}

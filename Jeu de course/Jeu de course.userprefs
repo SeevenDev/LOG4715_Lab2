@@ -1,5 +1,6 @@
 ﻿<Properties>
 <<<<<<< HEAD
+<<<<<<< HEAD
   <MonoDevelop.Ide.Workspace />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Cadriciel\Scripts\Speedometer.cs">
     <Files>
@@ -15,6 +16,16 @@
       <File FileName="Assets\Sample Assets\Vehicles\Car\Scripts\CarController.cs" Line="131" Column="6" />
       <File FileName="Assets\Cadriciel\Scripts\CarUserControlMP.cs" Line="109" Column="41" />
 >>>>>>> origin/master
+=======
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Cadriciel\Scripts\ProjectileManager.cs">
+    <Files>
+      <File FileName="Assets\Cadriciel\Scripts\StyleManager.cs" Line="83" Column="2" />
+      <File FileName="Assets\Cadriciel\Scripts\CheckpointManager.cs" Line="1" Column="1" />
+      <File FileName="Assets\Sample Assets\Vehicles\Car\Scripts\CarController.cs" Line="1" Column="1" />
+      <File FileName="Assets\Cadriciel\Scripts\CarUserControlMP.cs" Line="41" Column="2" />
+      <File FileName="Assets\Cadriciel\Scripts\ProjectileManager.cs" Line="67" Column="46" />
+>>>>>>> 2d1927a9d96b05ccedaf49fa326a0ac3bf5753ce
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

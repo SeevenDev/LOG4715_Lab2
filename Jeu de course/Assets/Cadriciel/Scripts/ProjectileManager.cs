@@ -3,7 +3,8 @@ using System.Collections;
 
 /**
  * 
- * Tuto : https://www.youtube.com/watch?v=DEtZUeVY9qk
+ * Tuto projectile : https://www.youtube.com/watch?v=DEtZUeVY9qk
+ * Tuto projectile explosif : https://www.youtube.com/watch?v=J9ErQDWR44k
  **/
 public class ProjectileManager : MonoBehaviour 
 {
@@ -39,12 +40,31 @@ public class ProjectileManager : MonoBehaviour
 		{
 			// Instanciation de l'objet Carapace Verte :
 			GameObject projectile = Instantiate(carapaceVerte) as GameObject;
-
+			
 			// Positionnement initial du projectile : 
 			projectile.transform.position = transform.position + transform.forward * 5;
 
+			StartCoroutine(carapaceVerteCorout(projectile));
+		}
+	}
+
+	IEnumerator carapaceVerteCorout(GameObject projectile)
+	{
+		Vector3 force = transform.forward * forceVerte;
+
+		while (true) 
+		{
 			// Faire bouger le projectile :
-			projectile.GetComponent<Rigidbody>().velocity = transform.forward * forceVerte;
+			/*while (projectile.GetComponent<Rigidbody>().velocity.magnitude < force.magnitude) 
+			{
+				projectile.GetComponent<Rigidbody> ().velocity += force / 30;
+				yield return true;
+			}*/
+
+			projectile.AddComponent<ProjectileCollider>();
+
+			projectile.GetComponent<Rigidbody> ().velocity = force;
+			yield return true;
 		}
 	}
 }
