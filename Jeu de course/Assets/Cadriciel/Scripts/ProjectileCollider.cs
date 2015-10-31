@@ -1,6 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/**
+ * 
+ * Souce rebonds : http://answers.unity3d.com/questions/352609/how-can-i-reflect-a-projectile.html 
+ **/
 public class ProjectileCollider : MonoBehaviour 
 {
 	private GameObject explosion;
