@@ -73,7 +73,6 @@ NavMeshSettings:
     minRegionArea: 2
     widthInaccuracy: 16.666666
     heightInaccuracy: 10
-    tileSizeHint: 0
   m_NavMesh: {fileID: 0}
 --- !u!1 &1550275
 GameObject:
@@ -4349,7 +4348,6 @@ MonoBehaviour:
   m_LightmapIndex: -1
   m_LightmapSize: 1024
   m_DrawTreesAndFoliage: 1
-  m_CollectDetailPatches: 1
   m_MaterialTemplate: {fileID: 0}
 --- !u!4 &227832305
 Transform:
@@ -8719,7 +8717,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7b7e7d0e25042a4e9622c9012124016, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  forceVerte: 100
+  vitesseVerte: 100
+  vitesseRouge: 80
+  rayonExplosion: 1
+  forceExplosion: 1
+  forceSoulevante: 5
+  nbMaxRebonds: 3
 --- !u!1 &487389443
 GameObject:
   m_ObjectHideFlags: 0
@@ -27326,9 +27329,9 @@ GUIText:
   m_Enabled: 1
   serializedVersion: 3
   m_Text: Vitesse
-  m_Anchor: 8
-  m_Alignment: 2
-  m_PixelOffset: {x: 350, y: -150}
+  m_Anchor: 6
+  m_Alignment: 0
+  m_PixelOffset: {x: 220, y: -150}
   m_LineSpacing: 1
   m_TabSize: 4
   m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}

@@ -13,9 +13,13 @@ public class ProjectileManager : MonoBehaviour
 	// ==========================================
 
 	private GameObject carapaceVerte;
+	private GameObject carapaceRouge;
 
 	[SerializeField]
 	private float vitesseVerte = 100.0f;
+
+	[SerializeField]
+	private float vitesseRouge = 80.0f;
 
 	[SerializeField]
 	private float rayonExplosion = 1.0f;
@@ -36,6 +40,7 @@ public class ProjectileManager : MonoBehaviour
 	void Start () 
 	{
 		carapaceVerte = Resources.Load ("CarapaceVerte") as GameObject;
+		carapaceRouge = Resources.Load ("CarapaceRouge") as GameObject;
 	}
 	
 	// ==========================================
@@ -46,12 +51,14 @@ public class ProjectileManager : MonoBehaviour
 	{
 		// === Utilisation d'un projectile ===
 
+		GameObject projectile;
+
 		// --- Carapace Verte ---
 
 		if (Input.GetMouseButtonDown (0)) 
 		{
 			// Instanciation de l'objet Carapace Verte :
-			GameObject projectile = Instantiate(carapaceVerte) as GameObject;
+			projectile = Instantiate(carapaceVerte) as GameObject;
 			projectile.rigidbody.useGravity = true;
 			
 			// Positionnement initial du projectile : 
@@ -64,7 +71,29 @@ public class ProjectileManager : MonoBehaviour
 			ProjectileCollider collider = projectile.AddComponent<ProjectileCollider>() as ProjectileCollider;
 			collider.setExplosion (forceExplosion, rayonExplosion, forceSoulevante);
 			collider.setVelocity (vitesseVerte, vitesseInitiale);
+			collider.setMode(ProjectileCollider.Mode.BOUNCING);
 			collider.setNbMaxRebonds(nbMaxRebonds);
+		}
+
+		// --- Carapace Rouge ---
+
+		else if (Input.GetMouseButtonDown (1)) 
+		{
+			// Instanciation de l'objet Carapace Rouge :
+			projectile = Instantiate(carapaceRouge) as GameObject;
+			projectile.rigidbody.useGravity = true;
+			
+			// Positionnement initial du projectile : 
+			projectile.transform.position = transform.position + transform.forward * 4;
+
+			// Ajout du composant ProjectileCollider pour gérer les collisions et les déplacements :
+			
+			Vector3 vitesseInitiale = transform.forward * vitesseRouge;
+			
+			ProjectileCollider collider = projectile.AddComponent<ProjectileCollider>() as ProjectileCollider;
+			collider.setExplosion (forceExplosion, rayonExplosion, forceSoulevante);
+			collider.setVelocity (vitesseRouge, vitesseInitiale);
+			collider.setMode(ProjectileCollider.Mode.HOMING_DEVICE);
 		}
 	}
 }

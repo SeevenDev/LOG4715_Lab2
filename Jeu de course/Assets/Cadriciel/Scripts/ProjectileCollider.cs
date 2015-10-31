@@ -7,20 +7,46 @@ using System.Collections;
  **/
 public class ProjectileCollider : MonoBehaviour 
 {
+	// ==========================================
+	// == Modes de projectiles
+	// ==========================================
+
+	public enum Mode {
+		BOUNCING, 		// vert
+		HOMING_DEVICE 	// rouge
+	};
+
+	// ==========================================
+	// == Attributs
+	// ==========================================
+
+	// Mode :
+	private Mode mode;
+
+	// Explosion :
 	private GameObject explosion;
-
 	private float rayonExplosion, forceExplosion, forceSoulevante, vitesse;
-	private Vector3 force;
 
+	// Vitesse :
+	private Vector3 force;
 	private Vector3 oldVelocity;
 
+	// Vert :
 	private int nbRebonds, nbMaxRebonds;
 
-	// Use this for initialization
+
+	// ==========================================
+	// == Start
+	// ==========================================
+
 	void Start () 
 	{
 		explosion = Resources.Load ("Fireworks") as GameObject;
 	}
+
+	// ==========================================
+	// == Update
+	// ==========================================
 
 	void Update()
 	{
@@ -32,6 +58,10 @@ public class ProjectileCollider : MonoBehaviour
 		rb.AddForce(Physics.gravity);
 	}
 
+	// ==========================================
+	// == Setters
+	// ==========================================
+	
 	public void setExplosion (float forceExplosion, float rayonExplosion, float forceSoulevante)
 	{
 		this.rayonExplosion = rayonExplosion;
@@ -45,17 +75,28 @@ public class ProjectileCollider : MonoBehaviour
 		this.force = forceInitiale;
 	}
 
+	public void setMode(Mode m)
+	{
+		this.mode = m;
+	}
+
 	public void setNbMaxRebonds(int nb)
 	{
 		this.nbMaxRebonds = nb;
 	}
-	
+
+	// ==========================================
+	// == Sur une collision
+	// ==========================================
+
 	void OnCollisionEnter(Collision collision)
 	{
 		Transform trans = collision.transform;
-		if (trans.root.name == "Cars") {
-			// === Collision avec une voiture ===
 
+		// === Collision avec une voiture ===
+
+		if (trans.root.name == "Cars") 
+		{
 			// Position finale de la carapace :
 			Vector3 positionFinale = transform.position;
 
@@ -83,13 +124,14 @@ public class ProjectileCollider : MonoBehaviour
 				}
 			}
 		} 
+
+		// === Collision avec un mur ===
+
 		else if (trans != null && trans.parent != null && trans.parent.name != null
 		         && (trans.parent.name == "Inner wall" 
 		         || trans.parent.name == "Outer wall"
 		         || trans.parent.name == "Obstacles"))
 		{
-			// === Collision avec un mur ===
-
 			// Détruire le projectile s'il a rebondi suffisamment de fois :
 			if (nbRebonds++ > nbMaxRebonds) 
 			{
