@@ -52,7 +52,9 @@ public class ProjectileManager : MonoBehaviour
 	{
 		Vector3 force = transform.forward * forceVerte;
 
-		while (true) 
+		projectile.AddComponent<ProjectileCollider>();
+
+		while (projectile != null) 
 		{
 			// Faire bouger le projectile :
 			/*while (projectile.GetComponent<Rigidbody>().velocity.magnitude < force.magnitude) 
@@ -61,9 +63,7 @@ public class ProjectileManager : MonoBehaviour
 				yield return true;
 			}*/
 
-			projectile.AddComponent<ProjectileCollider>();
-
-			projectile.GetComponent<Rigidbody> ().velocity = force;
+			projectile.GetComponent<Rigidbody>().velocity = force;
 			yield return true;
 		}
 	}
