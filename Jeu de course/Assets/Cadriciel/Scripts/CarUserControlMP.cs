@@ -38,6 +38,12 @@ public class CarUserControlMP : MonoBehaviour
 
 	private Hashtable voituresEnFrolage = new Hashtable();
 
+	[SerializeField]
+	private GUIText speedometer;
+
+	[SerializeField]
+	private Speedometer speedNeedle;
+
 	// ==========================================
 	// == Awake
 	// ==========================================
@@ -112,6 +118,11 @@ public class CarUserControlMP : MonoBehaviour
 				voituresEnFrolage.Remove(voituresEnFrolageArray[i]);
 			}
 		}
+
+		// --- Actualisation du compteur de vitesse ---
+		var speed = rigidbody.velocity.magnitude;
+		speedometer.text = speed.ToString("F2") + " km/h";
+		speedNeedle.angle = speed * 1.4f;
 	}
 
 	void OnDrawGizmos() 
