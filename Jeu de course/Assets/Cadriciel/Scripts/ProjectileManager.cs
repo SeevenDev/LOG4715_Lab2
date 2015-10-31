@@ -17,6 +17,15 @@ public class ProjectileManager : MonoBehaviour
 	[SerializeField]
 	private float forceVerte = 100.0f;
 
+	[SerializeField]
+	private float rayonExplosion = 1.0f;
+	
+	[SerializeField]
+	private float forceExplosion = 2.0f;
+
+	[SerializeField]
+	private float forceSoulevante = 2.0f;
+
 	// ==========================================
 	// == Start
 	// ==========================================
@@ -40,9 +49,10 @@ public class ProjectileManager : MonoBehaviour
 		{
 			// Instanciation de l'objet Carapace Verte :
 			GameObject projectile = Instantiate(carapaceVerte) as GameObject;
+			projectile.rigidbody.useGravity = true;
 			
 			// Positionnement initial du projectile : 
-			projectile.transform.position = transform.position + transform.forward * 5;
+			projectile.transform.position = transform.position + transform.forward * 3;
 
 			StartCoroutine(carapaceVerteCorout(projectile));
 		}
@@ -52,7 +62,11 @@ public class ProjectileManager : MonoBehaviour
 	{
 		Vector3 force = transform.forward * forceVerte;
 
-		projectile.AddComponent<ProjectileCollider>();
+		ProjectileCollider explosion = projectile.AddComponent<ProjectileCollider>() as ProjectileCollider;
+		explosion.setExplosion (forceExplosion, rayonExplosion, forceSoulevante);
+
+		// Force initiale :
+		projectile.rigidbody.AddForce (force);
 
 		while (projectile != null) 
 		{
@@ -63,7 +77,10 @@ public class ProjectileManager : MonoBehaviour
 				yield return true;
 			}*/
 
-			projectile.GetComponent<Rigidbody>().velocity = force;
+			Rigidbody rb = projectile.rigidbody;
+			rb.velocity = new Vector3(force.x, rb.velocity.y, force.z);
+			rb.AddForce(Physics.gravity);
+
 			yield return true;
 		}
 	}

@@ -2,11 +2,11 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Cadriciel\Scripts\ProjectileManager.cs">
     <Files>
-      <File FileName="Assets\Cadriciel\Scripts\ProjectileManager.cs" Line="67" Column="16" />
+      <File FileName="Assets\Cadriciel\Scripts\ProjectileManager.cs" Line="71" Column="1" />
       <File FileName="Assets\Cadriciel\Scripts\StyleManager.cs" Line="1" Column="1" />
       <File FileName="Assets\Cadriciel\Scripts\CheckpointManager.cs" Line="1" Column="1" />
       <File FileName="Assets\Sample Assets\Vehicles\Car\Scripts\CarController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Cadriciel\Scripts\CarUserControlMP.cs" Line="1" Column="1" />
+      <File FileName="Assets\Cadriciel\Scripts\CarUserControlMP.cs" Line="163" Column="1" />
       <File FileName="Assets\Cadriciel\Scripts\ProjectileCollider.cs" Line="25" Column="28" />
     </Files>
   </MonoDevelop.Ide.Workbench>
