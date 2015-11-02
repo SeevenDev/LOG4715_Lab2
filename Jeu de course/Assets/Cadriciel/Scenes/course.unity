@@ -8720,10 +8720,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   vitesseVerte: 100
   vitesseRouge: 80
+  vitesseBleue: 70
   rayonExplosion: 1
   forceExplosion: 1
   forceSoulevante: 5
   nbMaxRebonds: 3
+  turn: 20
+  retardRouge: 0
 --- !u!114 &481286560
 MonoBehaviour:
   m_ObjectHideFlags: 0
