@@ -8,13 +8,11 @@ public class Virage : MonoBehaviour
 	
 	// Use this for initialization
 	void Start () {
-		Debug.Log ("z: " + transform.position);
-		virage.text = "Virage";
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		Debug.Log ("z: " + transform.position);
 		virage.text = getIndication ();
 	}
 	

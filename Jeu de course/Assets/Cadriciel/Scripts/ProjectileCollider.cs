@@ -34,6 +34,11 @@ public class ProjectileCollider : MonoBehaviour
 	// Vert :
 	private int nbRebonds, nbMaxRebonds;
 
+	// Rouge :
+	private float turn, retard;
+	private Transform cible;
+	private bool started = false;
+
 
 	// ==========================================
 	// == Start
@@ -52,10 +57,40 @@ public class ProjectileCollider : MonoBehaviour
 	{
 		Rigidbody rb = transform.rigidbody;
 
-		oldVelocity = rb.velocity;
+		// === Carapace Rouge ===
+		if (this.mode == Mode.HOMING_DEVICE ) 
+		{
+			// --- Choix de la cible ---
+			if (!started) {
+				StartCoroutine (trouverCible ());
+				started = true;
+				return;
+			}
 
-		rb.velocity = new Vector3(force.x, rb.velocity.y, force.z);
-		rb.AddForce(Physics.gravity);
+			// --- Poursuite de la cible ---
+
+			if (cible == null) {
+				Debug.Log ("Aucune cible");
+				return;
+			}
+
+			// Déterminer la rotation de la carapace (ce qui influe sa direction) :
+			Quaternion rotationCible = Quaternion.LookRotation(cible.position - transform.position);
+			rb.MoveRotation(Quaternion.RotateTowards(transform.rotation, rotationCible, turn));
+
+			// Vitesse constante :
+			rb.velocity = transform.forward * vitesse;
+			rb.AddForce (Physics.gravity);
+		} 
+
+		// === Carapace Verte ===
+		else if (mode == Mode.BOUNCING) 
+		{
+			oldVelocity = rb.velocity;
+
+			rb.velocity = new Vector3 (force.x, rb.velocity.y, force.z);
+			rb.AddForce (Physics.gravity);
+		}
 	}
 
 	// ==========================================
@@ -83,6 +118,39 @@ public class ProjectileCollider : MonoBehaviour
 	public void setNbMaxRebonds(int nb)
 	{
 		this.nbMaxRebonds = nb;
+	}
+
+	public void setHoming (float turn, float retard)
+	{
+		this.turn = turn;
+		this.retard = retard;
+	}
+
+	// ==========================================
+	// == Carapace Rouge
+	// ==========================================
+
+	IEnumerator trouverCible() 
+	{
+		// Délai avant le démarrage de la carapace :
+		yield return new WaitForSeconds(retard);
+
+		float distance = Mathf.Infinity;
+
+		// Choix de la cible :
+		GameObject[] joueurs = GameObject.FindGameObjectsWithTag ("Player");
+		for (int i = 0; i < joueurs.Length; i++) 
+		{
+			if (joueurs[i].transform.name != "Joueur 1") // on ne veut pas se tirer dessus !
+			{
+				float diff = (joueurs[i].transform.position - transform.position).sqrMagnitude;
+
+				if (diff < distance) {
+					distance = diff;
+					cible = joueurs[i].transform;
+				}
+			}
+		}
 	}
 
 	// ==========================================
@@ -132,27 +200,48 @@ public class ProjectileCollider : MonoBehaviour
 		         || trans.parent.name == "Outer wall"
 		         || trans.parent.name == "Obstacles"))
 		{
-			// Détruire le projectile s'il a rebondi suffisamment de fois :
-			if (nbRebonds++ > nbMaxRebonds) 
+			// --- Carapace Verte : rebondir sur le mur ---
+
+			if (mode == Mode.BOUNCING)
 			{
-				// Effet visuel de l'explosion : 
-				GameObject fx = Instantiate (explosion) as GameObject;
-				fx.transform.position = transform.position;
-				Destroy (fx, 1);
+				// Détruire le projectile s'il a rebondi suffisamment de fois :
+				if (nbRebonds++ > nbMaxRebonds) 
+				{
+					// Effet visuel de l'explosion : 
+					GameObject fx = Instantiate (explosion) as GameObject;
+					fx.transform.position = transform.position;
+					Destroy (fx, 1);
 
-				Destroy (gameObject);
+					Destroy (gameObject);
 
-				return;
+					return;
+				}
+
+				// Get the point of contact :
+				ContactPoint contactPoint = collision.contacts[0];
+
+				// reflect our old velocity off the contact point's normal vector
+				Vector3 reflectedVelocity = Vector3.Reflect(oldVelocity, contactPoint.normal);
+
+				// assign the reflected velocity back to the rigidbody
+				force = reflectedVelocity;
 			}
 
-			// Get the point of contact :
-			ContactPoint contactPoint = collision.contacts[0];
+			// --- Carapace Rouge : exploser ---
 
-			// reflect our old velocity off the contact point's normal vector
-			Vector3 reflectedVelocity = Vector3.Reflect(oldVelocity, contactPoint.normal);
-
-			// assign the reflected velocity back to the rigidbody
-			force = reflectedVelocity;
+			else if (mode == Mode.HOMING_DEVICE)
+			{
+				// Position finale de la carapace :
+				Vector3 positionFinale = transform.position;
+				
+				// Détruire la carapace :
+				Destroy (gameObject);
+				
+				// Effet visuel de l'explosion : 
+				GameObject fx = Instantiate (explosion) as GameObject;
+				fx.transform.position = positionFinale;
+				Destroy (fx, 1);
+			}
 		}
 	}
 }
