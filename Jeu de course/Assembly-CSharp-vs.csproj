@@ -50,7 +50,7 @@
      <Compile Include="Assets\Cadriciel\Scripts\Checkpoint.cs" />
      <Compile Include="Assets\Cadriciel\Scripts\CheckpointManager.cs" />
      <Compile Include="Assets\Cadriciel\Scripts\MultiplayerMode.cs" />
-     <Compile Include="Assets\Cadriciel\Scripts\ProjectileCollider.cs" />
+     <Compile Include="Assets\Cadriciel\Scripts\ProjectileBehavior.cs" />
      <Compile Include="Assets\Cadriciel\Scripts\ProjectileManager.cs" />
      <Compile Include="Assets\Cadriciel\Scripts\RaceManager.cs" />
      <Compile Include="Assets\Cadriciel\Scripts\Speedometer.cs" />

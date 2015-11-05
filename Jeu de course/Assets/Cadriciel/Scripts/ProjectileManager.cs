@@ -17,6 +17,10 @@ public class ProjectileManager : MonoBehaviour
 	private GameObject carapaceRouge;
 	private GameObject carapaceBleue;
 
+	private Transform[] _path;
+	private int currentWaypoint = 0;
+	private float reachDist = 100.0f;
+
 	// Vitesses :
 	[SerializeField]
 	private float vitesseVerte = 100.0f;
@@ -48,6 +52,9 @@ public class ProjectileManager : MonoBehaviour
 	[SerializeField]
 	private float retardRouge = 0.0f;
 
+	[SerializeField]
+	private float distMaxCible = 1.0f;
+
 	// ==========================================
 	// == Start
 	// ==========================================
@@ -57,6 +64,13 @@ public class ProjectileManager : MonoBehaviour
 		carapaceVerte = Resources.Load ("CarapaceVerte") as GameObject;
 		carapaceRouge = Resources.Load ("CarapaceRouge") as GameObject;
 		carapaceBleue = Resources.Load ("CarapaceBleue") as GameObject;
+
+		// Chargement du path des projectiles :
+		GameObject p = GameObject.Find ("Path B");
+		this._path = new Transform[p.transform.childCount];
+		for (int i = 0; i < p.transform.childCount; i++) {
+			this._path[i] = p.transform.GetChild(i);
+		}
 	}
 	
 	// ==========================================
@@ -69,6 +83,15 @@ public class ProjectileManager : MonoBehaviour
 
 		GameObject projectile;
 
+		// --- Mise à jour de la position sur le path ---
+
+		// Déterminer si on a atteint le waypoint courant :
+		if ((_path[currentWaypoint].position - transform.position).magnitude < reachDist) {
+			// Cibler le waypoint suivant (en boucle) :
+			Debug.Log ("Waypoint " + currentWaypoint + " passé");
+			currentWaypoint = (currentWaypoint + 1) % _path.Length;
+		}
+		
 		// --- Carapace Verte ---
 
 		if (Input.GetButtonDown ("Fire1")) 
@@ -84,10 +107,10 @@ public class ProjectileManager : MonoBehaviour
 
 			Vector3 vitesseInitiale = transform.forward * vitesseVerte;
 			
-			ProjectileCollider collider = projectile.AddComponent<ProjectileCollider> () as ProjectileCollider;
+			ProjectileBehavior collider = projectile.AddComponent<ProjectileBehavior> () as ProjectileBehavior;
 			collider.setExplosion (forceExplosion, rayonExplosion, forceSoulevante);
 			collider.setVelocity (vitesseVerte, vitesseInitiale);
-			collider.setMode (ProjectileCollider.Mode.BOUNCING);
+			collider.setMode (ProjectileBehavior.Mode.BOUNCING);
 			collider.setNbMaxRebonds (nbMaxRebonds);
 		}
 
@@ -106,11 +129,12 @@ public class ProjectileManager : MonoBehaviour
 			
 			Vector3 vitesseInitiale = transform.forward * vitesseRouge;
 			
-			ProjectileCollider collider = projectile.AddComponent<ProjectileCollider> () as ProjectileCollider;
+			ProjectileBehavior collider = projectile.AddComponent<ProjectileBehavior> () as ProjectileBehavior;
 			collider.setExplosion (forceExplosion, rayonExplosion, forceSoulevante);
 			collider.setVelocity (vitesseRouge, vitesseInitiale);
-			collider.setHoming(turn, retardRouge);
-			collider.setMode (ProjectileCollider.Mode.HOMING_DEVICE);
+			collider.setHoming(turn, retardRouge, distMaxCible);
+			collider.setPath(_path, currentWaypoint, reachDist);
+			collider.setMode (ProjectileBehavior.Mode.HOMING_DEVICE);
 		}
 
 		// --- Carapace Bleue ---

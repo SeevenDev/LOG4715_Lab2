@@ -31,7 +31,7 @@ public class CheckpointManager : MonoBehaviour
 			_carPositions[car] = new PositionData();
 		}
 	}
-	
+
 	public void CheckpointTriggered(CarController car, int checkPointIndex)
 	{
 

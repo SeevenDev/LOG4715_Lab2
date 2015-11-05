@@ -3,9 +3,11 @@ using System.Collections;
 
 /**
  * 
- * Souce rebonds : http://answers.unity3d.com/questions/352609/how-can-i-reflect-a-projectile.html 
+ * Souce rebonds : http://answers.unity3d.com/questions/352609/how-can-i-reflect-a-projectile.html
+ * Tuto tete chercheuse : https://www.youtube.com/watch?v=feTek1j1Beo
+ * Tuto path following : https://www.youtube.com/watch?v=fvdRKS8x0aM
  **/
-public class ProjectileCollider : MonoBehaviour 
+public class ProjectileBehavior : MonoBehaviour 
 {
 	// ==========================================
 	// == Modes de projectiles
@@ -31,13 +33,18 @@ public class ProjectileCollider : MonoBehaviour
 	private Vector3 force;
 	private Vector3 oldVelocity;
 
+	// Path following :
+	private Transform[] _path;
+	private float reachDist;
+	private int currentPoint = 0;
+
 	// Vert :
 	private int nbRebonds, nbMaxRebonds;
 
 	// Rouge :
-	private float turn, retard;
+	private float turn, retard, maxDistance;
 	private Transform cible;
-	private bool started = false;
+	private bool cibleAcquise = false;
 
 
 	// ==========================================
@@ -58,21 +65,23 @@ public class ProjectileCollider : MonoBehaviour
 		Rigidbody rb = transform.rigidbody;
 
 		// === Carapace Rouge ===
+
 		if (this.mode == Mode.HOMING_DEVICE ) 
 		{
 			// --- Choix de la cible ---
-			if (!started) {
+
+			if (!cibleAcquise) {
 				StartCoroutine (trouverCible ());
-				started = true;
-				return;
+				cible = _path[currentPoint];
+
+				// Déterminer si on a atteint le waypoint courant :
+				if ((_path[currentPoint].position - transform.position).magnitude < reachDist) {
+					// Cibler le waypoint suivant (en boucle) :
+					currentPoint = (currentPoint + 1) % _path.Length;
+				}
 			}
 
-			// --- Poursuite de la cible ---
-
-			if (cible == null) {
-				Debug.Log ("Aucune cible");
-				return;
-			}
+			// --- Poursuite de la cible / du waypoint ---
 
 			// Déterminer la rotation de la carapace (ce qui influe sa direction) :
 			Quaternion rotationCible = Quaternion.LookRotation(cible.position - transform.position);
@@ -84,6 +93,7 @@ public class ProjectileCollider : MonoBehaviour
 		} 
 
 		// === Carapace Verte ===
+
 		else if (mode == Mode.BOUNCING) 
 		{
 			oldVelocity = rb.velocity;
@@ -120,10 +130,18 @@ public class ProjectileCollider : MonoBehaviour
 		this.nbMaxRebonds = nb;
 	}
 
-	public void setHoming (float turn, float retard)
+	public void setHoming (float turn, float retard, float maxDist)
 	{
 		this.turn = turn;
 		this.retard = retard;
+		this.maxDistance = maxDist;
+	}
+
+	public void setPath (Transform[] path, int currentWaypoint, float reachDist)
+	{
+		this._path = path;
+		this.currentPoint = currentWaypoint;
+		this.reachDist = reachDist;
 	}
 
 	// ==========================================
@@ -135,7 +153,7 @@ public class ProjectileCollider : MonoBehaviour
 		// Délai avant le démarrage de la carapace :
 		yield return new WaitForSeconds(retard);
 
-		float distance = Mathf.Infinity;
+		float distance = maxDistance;
 
 		// Choix de la cible :
 		GameObject[] joueurs = GameObject.FindGameObjectsWithTag ("Player");
@@ -148,6 +166,7 @@ public class ProjectileCollider : MonoBehaviour
 				if (diff < distance) {
 					distance = diff;
 					cible = joueurs[i].transform;
+					cibleAcquise = true;
 				}
 			}
 		}
@@ -244,4 +263,18 @@ public class ProjectileCollider : MonoBehaviour
 			}
 		}
 	}
+
+	// ==========================================
+	// == Path
+	// ==========================================
+
+	void OnDrawGizmos() 
+	{
+		for (int i = 0; i < _path.Length; i++) {
+			if (_path[i] != null) {
+				Gizmos.DrawSphere(_path[i].position, reachDist);
+			}
+		}
+	}
+
 }
