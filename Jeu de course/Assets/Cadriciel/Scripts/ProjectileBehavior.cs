@@ -45,7 +45,8 @@ public class ProjectileBehavior : MonoBehaviour
 	private float turn, retard, maxDistance;
 	private Transform cible;
 	private bool cibleAcquise = false;
-
+	private float maxAngle;
+	private LayerMask voituresLayer;
 
 	// ==========================================
 	// == Start
@@ -70,8 +71,7 @@ public class ProjectileBehavior : MonoBehaviour
 		{
 			// --- Choix de la cible ---
 
-			if (!cibleAcquise) {
-				StartCoroutine (trouverCible ());
+			if (!trouverCible()) {
 				cible = _path[currentPoint];
 
 				// Déterminer si on a atteint le waypoint courant :
@@ -80,6 +80,8 @@ public class ProjectileBehavior : MonoBehaviour
 					currentPoint = (currentPoint + 1) % _path.Length;
 				}
 			}
+
+			// Debug.Log ("Aiming : " + cible);
 
 			// --- Poursuite de la cible / du waypoint ---
 
@@ -130,11 +132,13 @@ public class ProjectileBehavior : MonoBehaviour
 		this.nbMaxRebonds = nb;
 	}
 
-	public void setHoming (float turn, float retard, float maxDist)
+	public void setHoming (float turn, float retard, float maxDist, float maxAngle, LayerMask voituresLayer)
 	{
 		this.turn = turn;
 		this.retard = retard;
 		this.maxDistance = maxDist;
+		this.maxAngle = maxAngle;
+		this.voituresLayer = voituresLayer;
 	}
 
 	public void setPath (Transform[] path, int currentWaypoint, float reachDist)
@@ -148,11 +152,8 @@ public class ProjectileBehavior : MonoBehaviour
 	// == Carapace Rouge
 	// ==========================================
 
-	IEnumerator trouverCible() 
+	bool trouverCible() 
 	{
-		// Délai avant le démarrage de la carapace :
-		yield return new WaitForSeconds(retard);
-
 		float distance = maxDistance;
 
 		// Choix de la cible :
@@ -162,14 +163,26 @@ public class ProjectileBehavior : MonoBehaviour
 			if (joueurs[i].transform.name != "Joueur 1") // on ne veut pas se tirer dessus !
 			{
 				float diff = (joueurs[i].transform.position - transform.position).sqrMagnitude;
+				Vector3 directionCible = joueurs[i].transform.position - transform.position;
+				Vector3 directionProjectile = transform.forward;
 
-				if (diff < distance) {
+				// On acquière la cible si elle est assez proche, "à l'avant" (angle < 90°) 
+				// et s'il n'y a pas d'obstacle entre le projectile et la voiture
+				if (diff < distance 
+				    && Vector3.Angle (directionCible, directionProjectile) <= maxAngle
+				    && ! Physics.Raycast(transform.position, directionCible, diff, voituresLayer)
+				    ) 
+				{
 					distance = diff;
 					cible = joueurs[i].transform;
-					cibleAcquise = true;
+
+					Debug.Log ("Cible : " + joueurs[i].transform.name);
+
+					return true;
 				}
 			}
 		}
+		return false;
 	}
 
 	// ==========================================
@@ -205,7 +218,7 @@ public class ProjectileBehavior : MonoBehaviour
 						Rigidbody rb = objetProche.parent.parent.GetComponent<Rigidbody> ();
 						if (rb != null) {
 							rb.AddExplosionForce (forceExplosion, positionFinale, rayonExplosion, forceSoulevante, ForceMode.Impulse);
-							Debug.Log ("Explosion sur " + nomVoitureProche);
+							// Debug.Log ("Explosion sur " + nomVoitureProche);
 						}
 					}
 				}

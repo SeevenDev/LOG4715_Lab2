@@ -17,9 +17,9 @@ public class ProjectileManager : MonoBehaviour
 	private GameObject carapaceRouge;
 	private GameObject carapaceBleue;
 
-	private Transform[] _path;
+	private Transform[] _path_v, _path_p;
 	private int currentWaypoint = 0;
-	private float reachDist = 100.0f;
+	[SerializeField] private float reachDist = 100.0f;
 
 	// Vitesses :
 	[SerializeField]
@@ -46,14 +46,11 @@ public class ProjectileManager : MonoBehaviour
 	private int nbMaxRebonds = 3;
 
 	// Carapace rouge :
-	[SerializeField]
-	private float turn = 20.0f;
-
-	[SerializeField]
-	private float retardRouge = 0.0f;
-
-	[SerializeField]
-	private float distMaxCible = 1.0f;
+	[SerializeField] private float turn = 20.0f;
+	[SerializeField] private float retardRouge = 0.0f;
+	[SerializeField] private float distMaxCible = 80.0f;
+	[SerializeField] private float maxAngle = 90.0f;
+	[SerializeField] private LayerMask voituresLayer;
 
 	// ==========================================
 	// == Start
@@ -65,11 +62,20 @@ public class ProjectileManager : MonoBehaviour
 		carapaceRouge = Resources.Load ("CarapaceRouge") as GameObject;
 		carapaceBleue = Resources.Load ("CarapaceBleue") as GameObject;
 
-		// Chargement du path des projectiles :
-		GameObject p = GameObject.Find ("Path B");
-		this._path = new Transform[p.transform.childCount];
+
+		// Chargement du path pour les projectiles :
+		GameObject p = GameObject.Find ("Path P");
+		this._path_p = new Transform[p.transform.childCount];
 		for (int i = 0; i < p.transform.childCount; i++) {
-			this._path[i] = p.transform.GetChild(i);
+			this._path_p[i] = p.transform.GetChild(i);
+		}
+
+		// Chargement du path pour la voiture 
+		// (correspond avec le Path P mais adapté pour la trajectoire du joueur) :
+		p = GameObject.Find ("Path V");
+		this._path_v = new Transform[p.transform.childCount];
+		for (int i = 0; i < p.transform.childCount; i++) {
+			this._path_v[i] = p.transform.GetChild(i);
 		}
 	}
 	
@@ -85,13 +91,17 @@ public class ProjectileManager : MonoBehaviour
 
 		// --- Mise à jour de la position sur le path ---
 
-		// Déterminer si on a atteint le waypoint courant :
-		if ((_path[currentWaypoint].position - transform.position).magnitude < reachDist) {
-			// Cibler le waypoint suivant (en boucle) :
-			Debug.Log ("Waypoint " + currentWaypoint + " passé");
-			currentWaypoint = (currentWaypoint + 1) % _path.Length;
+		// Vérifier à quel waypoint on est :
+		for (int i = 0; i < _path_v.Length; i ++) {
+			if ((_path_v[i].position - transform.position).magnitude < reachDist) {
+				// Cibler le waypoint suivant (en boucle) :
+				Debug.Log ("Waypoint " + i + " passé");
+				currentWaypoint = (i+1) % _path_v.Length;
+			}
 		}
-		
+
+		Debug.Log ("waypoint courant : " + currentWaypoint);
+
 		// --- Carapace Verte ---
 
 		if (Input.GetButtonDown ("Fire1")) 
@@ -101,7 +111,7 @@ public class ProjectileManager : MonoBehaviour
 			projectile.rigidbody.useGravity = true;
 			
 			// Positionnement initial du projectile : 
-			projectile.transform.position = transform.position + transform.forward * 4;
+			projectile.transform.position = transform.position + transform.forward * 4.5f;
 
 			// Ajout du composant ProjectileCollider pour gérer les collisions et les déplacements :
 
@@ -123,7 +133,8 @@ public class ProjectileManager : MonoBehaviour
 			projectile.rigidbody.useGravity = true;
 			
 			// Positionnement initial du projectile : 
-			projectile.transform.position = transform.position + transform.forward * 4;
+			projectile.transform.position = transform.position + transform.forward * 4.5f;
+			projectile.transform.forward = transform.forward;
 
 			// Ajout du composant ProjectileCollider pour gérer les collisions et les déplacements :
 			
@@ -132,8 +143,8 @@ public class ProjectileManager : MonoBehaviour
 			ProjectileBehavior collider = projectile.AddComponent<ProjectileBehavior> () as ProjectileBehavior;
 			collider.setExplosion (forceExplosion, rayonExplosion, forceSoulevante);
 			collider.setVelocity (vitesseRouge, vitesseInitiale);
-			collider.setHoming(turn, retardRouge, distMaxCible);
-			collider.setPath(_path, currentWaypoint, reachDist);
+			collider.setHoming(turn, retardRouge, distMaxCible, maxAngle, voituresLayer);
+			collider.setPath(_path_p, currentWaypoint, reachDist);
 			collider.setMode (ProjectileBehavior.Mode.HOMING_DEVICE);
 		}
 
