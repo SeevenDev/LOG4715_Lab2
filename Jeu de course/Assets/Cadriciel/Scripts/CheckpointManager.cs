@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
 
 public class CheckpointManager : MonoBehaviour 
@@ -39,6 +40,27 @@ public class CheckpointManager : MonoBehaviour
 		this._path_v = new Transform[p.transform.childCount];
 		for (int i = 0; i < p.transform.childCount; i++) {
 			this._path_v[i] = p.transform.GetChild(i);
+		}
+	}
+
+	void Update()
+	{
+		// Méca 5 (rubberbanding) : Mise à jour de la vitesse maxdes voitures selon leur position :
+		StartCoroutine (updateCarsSpeed ());
+	}
+
+	IEnumerator updateCarsSpeed()
+	{
+		yield return new WaitForSeconds (1.0f);
+
+		CarController[] cars = getCarsInOrder ();
+		for (int i = 0 ; i < cars.Length ; i++)
+		{
+			Vector3 velo = cars[i].rigidbody.velocity;
+			float facteur = Mathf.Log(i+10, 10); // Premier = 1 : pas de changement
+			cars[i].setMaxSpeedFactor(facteur);
+
+			Debug.Log (cars[i].name + " : " + cars[i].MaxSpeed + "*" + facteur + " = " + facteur * cars[i].MaxSpeed);
 		}
 	}
 
@@ -110,14 +132,19 @@ public class CheckpointManager : MonoBehaviour
 		return firstCars_list.ToArray();
 	}
 
-	public Transform getCarAtPosition(int position, List<string> ignore)
+	public CarController getCarAtPosition(int position, List<string> ignore)
 	{
 		return getCarsInOrder(ignore)[position];
 	}
 
-	public Transform[] getCarsInOrder(List<string> ignore)
+	public CarController[] getCarsInOrder()
 	{
-		Dictionary<Transform,float[]> cars = new Dictionary<Transform,float[]>();
+		return getCarsInOrder (new List<string> ());
+	}
+
+	public CarController[] getCarsInOrder(List<string> ignore)
+	{
+		Dictionary<CarController,float[]> cars = new Dictionary<CarController,float[]>();
 
 		// === Calculer la spécificité des voitures ===
 
@@ -168,7 +195,7 @@ public class CheckpointManager : MonoBehaviour
 
 			// --- Stockage de la spécificité dans le Dictionary ---
 
-			cars.Add (pair.Key.transform, specificite);
+			cars.Add (pair.Key, specificite);
 		}
 
 		// === Trier les voitures selon leur spécificité ===
@@ -176,7 +203,7 @@ public class CheckpointManager : MonoBehaviour
 		// --- Convertir la spécificité en un chiffre ---
 
 		float ordreGrandeurDist = Mathf.Pow(10, Mathf.Floor (Mathf.Log (max_distWpProchain, 10)));
-		foreach (KeyValuePair<Transform,float[]> pair in cars) 
+		foreach (KeyValuePair<CarController,float[]> pair in cars) 
 		{
 			pair.Value[3] = pair.Value[2]/ordreGrandeurDist
 				+ pair.Value[1]*10
@@ -185,15 +212,15 @@ public class CheckpointManager : MonoBehaviour
 
 		// --- Tri du dictionnaire en fonction de la spécificité ---
 
-		List<KeyValuePair<Transform,float[]>> cars_list = new List<KeyValuePair<Transform,float[]>>(cars);
-		cars_list.Sort (delegate(KeyValuePair<Transform,float[]> firstPair, KeyValuePair<Transform,float[]> nextPair) {
+		List<KeyValuePair<CarController,float[]>> cars_list = new List<KeyValuePair<CarController,float[]>>(cars);
+		cars_list.Sort (delegate(KeyValuePair<CarController,float[]> firstPair, KeyValuePair<CarController,float[]> nextPair) {
 			return -1 * firstPair.Value[3].CompareTo (nextPair.Value[3]);
 		});
 
 		// --- On retourne un tableau de voitures triées selon leur position sur la piste ---
 
-		List<Transform> voituresOrdonnees = new List<Transform>();
-		foreach (KeyValuePair<Transform,float[]> pair in cars_list) {
+		List<CarController> voituresOrdonnees = new List<CarController>();
+		foreach (KeyValuePair<CarController,float[]> pair in cars_list) {
 			voituresOrdonnees.Add(pair.Key);
 		}
 

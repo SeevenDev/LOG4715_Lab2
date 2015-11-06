@@ -122,7 +122,7 @@ public class ProjectileBehavior : MonoBehaviour
 		{
 			// --- Choix de la cible ---
 
-			premiereVoiture = cp_manager.getCarAtPosition(0, joueursIgnores);
+			premiereVoiture = cp_manager.getCarAtPosition(0, joueursIgnores).transform;
 
 			// --- Follow path ---
 
