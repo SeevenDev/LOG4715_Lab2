@@ -23,7 +23,8 @@ public class CheckpointManager : MonoBehaviour
 		public int position;
 	}
 
-	private int _currentMaxLap = 0; // garder la trace du tour le plus avancé (pour 
+	private int _currentMaxLap = 0; // garder la trace du tour le plus avancé
+	private Transform[] _path_v;
 
 	// Use this for initialization
 	void Awake () 
@@ -31,6 +32,13 @@ public class CheckpointManager : MonoBehaviour
 		foreach (CarController car in _carContainer.GetComponentsInChildren<CarController>(true))
 		{
 			_carPositions[car] = new PositionData();
+		}
+
+		// Chargement du path pour les voitures :
+		GameObject p = GameObject.Find ("Path V");
+		this._path_v = new Transform[p.transform.childCount];
+		for (int i = 0; i < p.transform.childCount; i++) {
+			this._path_v[i] = p.transform.GetChild(i);
 		}
 	}
 
@@ -100,6 +108,96 @@ public class CheckpointManager : MonoBehaviour
 		}
 
 		return firstCars_list.ToArray();
+	}
+
+	public Transform getCarAtPosition(int position, List<string> ignore)
+	{
+		return getCarsInOrder(ignore)[position];
+	}
+
+	public Transform[] getCarsInOrder(List<string> ignore)
+	{
+		Dictionary<Transform,float[]> cars = new Dictionary<Transform,float[]>();
+
+		// === Calculer la spécificité des voitures ===
+
+		float max_distWpProchain = 0;
+		foreach (KeyValuePair<CarController,PositionData> pair in _carPositions)
+		{
+			// Ignorer les joueurs que l'on ne veut pas classer
+			// (typiquement "Joueur 1" et/ou "Joueur 2") :
+			if (ignore.IndexOf(pair.Key.transform.name) != -1) {
+				continue;
+			}
+
+			// [0] : tour actuel (entre 0 et 2)
+			// [1] : Waypoint le plus proche (entre 0 et 15)
+			// [2] : distance au waypoint prochain (entre 0 et +Infinity ?)
+			// [3] : spécificité convertie en nombre (partie Tri)
+			float[] specificite = new float[4];
+
+			// --- [0] Tour actuel ---
+
+			specificite[0] = pair.Value.lap;
+
+			// --- [1] Waypoint le plus proche ---
+
+			float minDistWp = Mathf.Infinity;
+
+			// Pour chaque checkpoint du Path Vehicule :
+			for (int wp = 0 ; wp < _path_v.Length; wp++)
+			{
+				// On détermine vers quel waypoint la voiture est la plus proche :
+				float distWp_tmp = (pair.Key.transform.position - _path_v[wp].transform.position).magnitude;
+				
+				if (distWp_tmp < minDistWp) {
+					minDistWp = distWp_tmp;
+					specificite[1] = wp;
+				}
+			}
+
+			// --- [2] Distance au waypoint + 1 ---
+
+			int wp_prochain = ((int)specificite[1] + 1) % _path_v.Length;
+			specificite[2] = (pair.Key.transform.position - _path_v[wp_prochain].transform.position).magnitude;
+
+			// On stock la valeur de la plus grande distance pour avoir l'ordre de grandeur pour le tri :
+			if (specificite[2] > max_distWpProchain) {
+				max_distWpProchain = specificite[2];
+			}
+
+			// --- Stockage de la spécificité dans le Dictionary ---
+
+			cars.Add (pair.Key.transform, specificite);
+		}
+
+		// === Trier les voitures selon leur spécificité ===
+
+		// --- Convertir la spécificité en un chiffre ---
+
+		float ordreGrandeurDist = Mathf.Pow(10, Mathf.Floor (Mathf.Log (max_distWpProchain, 10)));
+		foreach (KeyValuePair<Transform,float[]> pair in cars) 
+		{
+			pair.Value[3] = pair.Value[2]/ordreGrandeurDist
+				+ pair.Value[1]*10
+					+ pair.Value[0]*100;
+		}
+
+		// --- Tri du dictionnaire en fonction de la spécificité ---
+
+		List<KeyValuePair<Transform,float[]>> cars_list = new List<KeyValuePair<Transform,float[]>>(cars);
+		cars_list.Sort (delegate(KeyValuePair<Transform,float[]> firstPair, KeyValuePair<Transform,float[]> nextPair) {
+			return -1 * firstPair.Value[3].CompareTo (nextPair.Value[3]);
+		});
+
+		// --- On retourne un tableau de voitures triées selon leur position sur la piste ---
+
+		List<Transform> voituresOrdonnees = new List<Transform>();
+		foreach (KeyValuePair<Transform,float[]> pair in cars_list) {
+			voituresOrdonnees.Add(pair.Key);
+		}
+
+		return voituresOrdonnees.ToArray();
 	}
 
 	bool IsPlayer(CarController car)

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 /**
  * 
@@ -49,6 +50,10 @@ public class ProjectileBehavior : MonoBehaviour
 	private float maxAngle;
 	private LayerMask voituresLayer;
 
+	// Autres :
+	private CheckpointManager cp_manager;
+	private List<string> joueursIgnores;
+
 	// ==========================================
 	// == Start
 	// ==========================================
@@ -56,6 +61,12 @@ public class ProjectileBehavior : MonoBehaviour
 	void Start () 
 	{
 		explosion = Resources.Load ("Fireworks") as GameObject;
+
+		// Le CheckpointManager :
+		GameObject game_manager = GameObject.Find ("Game Manager") as GameObject;
+		this.cp_manager = game_manager.GetComponent<CheckpointManager> ();
+
+		joueursIgnores = new List<string> (new string[]{"Joueur 1", "Joueur 2"});
 	}
 
 	// ==========================================
@@ -111,7 +122,7 @@ public class ProjectileBehavior : MonoBehaviour
 		{
 			// --- Choix de la cible ---
 
-			trouverPremier();
+			premiereVoiture = cp_manager.getCarAtPosition(0, joueursIgnores);
 
 			// --- Follow path ---
 
@@ -234,6 +245,7 @@ public class ProjectileBehavior : MonoBehaviour
 		return false;
 	}
 
+	/*
 	void trouverPremier()
 	{
 		float distance = Mathf.Infinity;
@@ -287,7 +299,7 @@ public class ProjectileBehavior : MonoBehaviour
 				}
 			}
 		}
-	}
+	}*/
 
 	// ==========================================
 	// == Sur une collision
