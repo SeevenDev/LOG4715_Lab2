@@ -47,7 +47,6 @@ public class ProjectileManager : MonoBehaviour
 
 	// Carapace rouge :
 	[SerializeField] private float turn = 20.0f;
-	[SerializeField] private float retardRouge = 0.0f;
 	[SerializeField] private float distMaxCible = 80.0f;
 	[SerializeField] private float maxAngle = 90.0f;
 	[SerializeField] private LayerMask voituresLayer;
@@ -95,12 +94,12 @@ public class ProjectileManager : MonoBehaviour
 		for (int i = 0; i < _path_v.Length; i ++) {
 			if ((_path_v[i].position - transform.position).magnitude < reachDist) {
 				// Cibler le waypoint suivant (en boucle) :
-				Debug.Log ("Waypoint " + i + " passé");
+				// Debug.Log ("Waypoint " + i + " passé");
 				currentWaypoint = (i+1) % _path_v.Length;
 			}
 		}
 
-		Debug.Log ("waypoint courant : " + currentWaypoint);
+		// Debug.Log ("waypoint courant : " + currentWaypoint);
 
 		// --- Carapace Verte ---
 
@@ -143,7 +142,7 @@ public class ProjectileManager : MonoBehaviour
 			ProjectileBehavior collider = projectile.AddComponent<ProjectileBehavior> () as ProjectileBehavior;
 			collider.setExplosion (forceExplosion, rayonExplosion, forceSoulevante);
 			collider.setVelocity (vitesseRouge, vitesseInitiale);
-			collider.setHoming(turn, retardRouge, distMaxCible, maxAngle, voituresLayer);
+			collider.setHoming(turn, distMaxCible, maxAngle, voituresLayer);
 			collider.setPath(_path_p, currentWaypoint, reachDist);
 			collider.setMode (ProjectileBehavior.Mode.HOMING_DEVICE);
 		}
@@ -152,7 +151,25 @@ public class ProjectileManager : MonoBehaviour
 
 		else if (Input.GetButtonDown ("Fire3")) 
 		{
-			Debug.Log ("Carapace Bleue à venir !");
+			// Instanciation de l'objet Carapace Rouge :
+			projectile = Instantiate (carapaceBleue) as GameObject;
+			projectile.rigidbody.useGravity = true;
+			
+			// Positionnement initial du projectile : 
+			projectile.transform.position = transform.position + transform.forward * 10;
+			projectile.transform.forward = transform.forward;
+			
+			// Ajout du composant ProjectileCollider pour gérer les collisions et les déplacements :
+			
+			Vector3 vitesseInitiale = transform.forward * vitesseBleue;
+			
+			ProjectileBehavior collider = projectile.AddComponent<ProjectileBehavior> () as ProjectileBehavior;
+			collider.setExplosion (forceExplosion, rayonExplosion, forceSoulevante);
+			collider.setVelocity (vitesseBleue, vitesseInitiale);
+			collider.setHoming(turn, distMaxCible, maxAngle, voituresLayer);
+			collider.setPath(_path_p, currentWaypoint, reachDist);
+			collider.setPathVehicules(_path_v);
+			collider.setMode (ProjectileBehavior.Mode.TO_THE_TOP);
 		}
 	}
 }

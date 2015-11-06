@@ -23,6 +23,8 @@ public class CheckpointManager : MonoBehaviour
 		public int position;
 	}
 
+	private int _currentMaxLap = 0; // garder la trace du tour le plus avancé (pour 
+
 	// Use this for initialization
 	void Awake () 
 	{
@@ -46,18 +48,30 @@ public class CheckpointManager : MonoBehaviour
 					carData.checkPoint = checkPointIndex;
 					carData.lap += 1;
 					Debug.Log(car.name + " lap " + carData.lap);
+
+					// Mettre à jour le tour le plus avancé :
+					if (carData.lap > _currentMaxLap) {
+						_currentMaxLap = carData.lap;
+					}
+
 					if (IsPlayer(car))
 					{
 						GetComponent<RaceManager>().Announce("Tour " + (carData.lap+1).ToString());
 
 						// Mec1. Style :
-						car.GetComponent<StyleManager>().logStyle(100, "Tour complet");
+						car.GetComponent<StyleManager>().logStyle(100, "Tour " + carData.lap+1);
 					}
 
 					if (carData.lap >= _totalLaps)
 					{
 						_finished = true;
 						GetComponent<RaceManager>().EndRace(car.name.ToLower());
+
+						if (IsPlayer(car))
+						{
+							// Mec1. Style :
+							car.GetComponent<StyleManager>().logStyle(1000, "Premier !");
+						}
 					}
 				}
 			}
@@ -68,6 +82,24 @@ public class CheckpointManager : MonoBehaviour
 		}
 
 
+	}
+
+	/**
+	 * Retourne les voitures qui sontau tour le plus avancé de la course.
+	 **/
+	public Transform[] getFirstCars()
+	{
+		List<Transform> firstCars_list = new List<Transform>();
+
+		// Stocker toutes les voitures qui sont au tour le plus avancé :
+		foreach (KeyValuePair<CarController,PositionData> pair in _carPositions)
+		{
+			if (pair.Value.lap == _currentMaxLap) {
+				firstCars_list.Add(pair.Key.transform);
+			}
+		}
+
+		return firstCars_list.ToArray();
 	}
 
 	bool IsPlayer(CarController car)
