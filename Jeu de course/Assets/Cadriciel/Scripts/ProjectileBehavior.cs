@@ -53,6 +53,7 @@ public class ProjectileBehavior : MonoBehaviour
 	// Autres :
 	private CheckpointManager cp_manager;
 	private List<string> joueursIgnores;
+	private Material[] wall_materials;
 
 	// ==========================================
 	// == Start
@@ -66,7 +67,15 @@ public class ProjectileBehavior : MonoBehaviour
 		GameObject game_manager = GameObject.Find ("Game Manager") as GameObject;
 		this.cp_manager = game_manager.GetComponent<CheckpointManager> ();
 
+		// Joueurs ignorés par fusée bleue :
 		joueursIgnores = new List<string> (new string[]{"Joueur 1", "Joueur 2"});
+
+		// Materials des murs et obstacles :
+		wall_materials = new Material[] {
+			Resources.Load ("Wall_1") as Material,
+			Resources.Load ("Wall_2") as Material,
+			Resources.Load ("Wall_3") as Material
+		};
 	}
 
 	// ==========================================
@@ -144,9 +153,10 @@ public class ProjectileBehavior : MonoBehaviour
 			Vector3 directionProjectile = transform.forward;
 			float anglePremier = Vector3.Angle(directionPremier, directionProjectile);
 
+			bool obstacle = Physics.Raycast(transform.position, directionPremier, distPremier, voituresLayer);
 			if (distPremier <= maxDistance
 			    && anglePremier <= maxAngle
-			    && ! Physics.Raycast(transform.position, directionPremier, distPremier, voituresLayer)) 
+			    && !obstacle) 
 			{
 				cible = premiereVoiture;
 			}
@@ -244,62 +254,6 @@ public class ProjectileBehavior : MonoBehaviour
 		}
 		return false;
 	}
-
-	/*
-	void trouverPremier()
-	{
-		float distance = Mathf.Infinity;
-
-		// Le CheckpointManager :
-		GameObject game_manager = GameObject.Find ("Game Manager") as GameObject;
-		CheckpointManager cp_manager = game_manager.GetComponent<CheckpointManager> ();
-		Transform[] premieresVoitures = cp_manager.getFirstCars ();
-
-		// Pour chaque voiture au tour le plus avancé :
-
-		int plusGrandWp = 0;
-		float distWp = Mathf.Infinity;
-
-		for (int i = 0; i < premieresVoitures.Length; i++)
-		{
-			if (premieresVoitures[i].name != "Joueur 1" // on ne veut pas se tirer dessus !
-			    && premieresVoitures[i].name != "Joueur 2") // on ne veut pas lui tirer dessus !
-			{
-				// Pour chaque checkpoint du Path Vehicule :
-
-				float minDistWp_courant = Mathf.Infinity;
-				int plusProcheWp_courant = 0;
-
-				for (int wp = 0 ; wp < _path_v.Length; wp++)
-				{
-					// On détermine vers quel waypoint la voiture est la plus proche :
-					float distWp_tmp = (premieresVoitures[i].position - _path_v[wp].transform.position).sqrMagnitude;
-
-					if (distWp_tmp < minDistWp_courant) {
-						minDistWp_courant = distWp_tmp;
-						plusProcheWp_courant = wp;
-					}
-				}
-
-				// On vérifie si la voiture courante est plus avancée que la précédente 
-				// (+ grand Waypoint OU meme Waypoint mais + proche du wp+1) :
-
-				float distWp_plus1 = 0, distWp_plus1_courant = 0;
-				if (premiereVoiture != null) {
-					distWp_plus1 = (premiereVoiture.position - _path_v[(plusProcheWp_courant+1)%_path_v.Length].transform.position).sqrMagnitude; // voiture précédemment testée
-					distWp_plus1_courant = (premieresVoitures[i].position - _path_v[(plusProcheWp_courant+1)%_path_v.Length].transform.position).sqrMagnitude; // voiture en cours de testance
-				}
-
-				if (plusProcheWp_courant > plusGrandWp 
-				    || (plusProcheWp_courant == plusGrandWp && distWp_plus1 <= distWp_plus1_courant)) 
-				{
-					premiereVoiture = premieresVoitures[i];
-					plusGrandWp = plusProcheWp_courant;
-					distWp = minDistWp_courant;
-				}
-			}
-		}
-	}*/
 
 	// ==========================================
 	// == Sur une collision
@@ -406,20 +360,31 @@ public class ProjectileBehavior : MonoBehaviour
 				fx.transform.position = positionFinale;
 				Destroy (fx, 1);
 			}
-		}
-	}
 
-	// ==========================================
-	// == Path
-	// ==========================================
+			// --- Desctruction des murs internes et des obstacles ---
 
-	void OnDrawGizmos() 
-	{
-		for (int i = 0; i < _path_p.Length; i++) {
-			if (_path_p[i] != null) {
-				Gizmos.DrawSphere(_path_p[i].position, reachDist);
+			if (trans.parent.name == "Inner wall" || trans.parent.name == "Obstacles")
+			{
+				Debug.Log ("hit a wall");
+				MeshRenderer rend = trans.GetComponent<MeshRenderer>();
+
+				// Déterminer le Material courant :
+				for (int i = 0 ; i < wall_materials.Length ; i++)
+				{
+					if (rend.material.name.StartsWith(wall_materials[i].name))
+					{
+						// Si c'est le dernier Material : détruire l'objet
+						if (i == wall_materials.Length - 1) {
+							Destroy(collision.gameObject);
+							break;
+						}
+
+						// Sinon, passer au Material suivant :
+						rend.material = Instantiate(wall_materials[i+1]) as Material;
+						break;
+					}
+				}
 			}
 		}
 	}
-
 }

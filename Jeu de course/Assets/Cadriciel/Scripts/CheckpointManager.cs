@@ -60,7 +60,7 @@ public class CheckpointManager : MonoBehaviour
 			float facteur = Mathf.Log(i+10, 10); // Premier = 1 : pas de changement
 			cars[i].setMaxSpeedFactor(facteur);
 
-			Debug.Log (cars[i].name + " : " + cars[i].MaxSpeed + "*" + facteur + " = " + facteur * cars[i].MaxSpeed);
+			// Debug.Log (cars[i].name + " : " + cars[i].MaxSpeed + "*" + facteur + " = " + facteur * cars[i].MaxSpeed);
 		}
 	}
 
