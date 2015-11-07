@@ -3,6 +3,13 @@ Jeu de course/Temp
 Jeu de course/Library
 Jeu de course/Assets/Standard Assets/Particles/*
 
+## UnityVS
+Jeu de course/UnityVS
+Jeu de course/UnityVS.*
+Jeu de course/Assets/UnityVS
+Jeu de course/Assets/UnityVS.*
+Jeu de course/.vs
+
 # Non-ignorations :
 !Jeu de course/Assets/Standard Assets/Particles.meta
 !Jeu de course/Assets/Standard Assets/Particles/Misc
