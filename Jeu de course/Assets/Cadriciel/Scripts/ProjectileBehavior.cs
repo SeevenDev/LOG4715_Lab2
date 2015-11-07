@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 /**
  * 
- * Souce rebonds : http://answers.unity3d.com/questions/352609/how-can-i-reflect-a-projectile.html
+ * Source rebonds : http://answers.unity3d.com/questions/352609/how-can-i-reflect-a-projectile.html
  * Tuto tete chercheuse : https://www.youtube.com/watch?v=feTek1j1Beo
  * Tuto path following : https://www.youtube.com/watch?v=fvdRKS8x0aM
  **/
@@ -30,6 +30,7 @@ public class ProjectileBehavior : MonoBehaviour
 	// Explosion :
 	private GameObject explosion;
 	private float rayonExplosion, forceExplosion, forceSoulevante, vitesse;
+	private int _projectileDamage;
 
 	// Vitesse :
 	private Vector3 force;
@@ -175,11 +176,12 @@ public class ProjectileBehavior : MonoBehaviour
 	// == Setters
 	// ==========================================
 	
-	public void setExplosion (float forceExplosion, float rayonExplosion, float forceSoulevante)
+	public void setExplosion (float forceExplosion, float rayonExplosion, float forceSoulevante, int damage)
 	{
-		this.rayonExplosion = rayonExplosion;
+		this.rayonExplosion = rayonExplosion * transform.localScale.x;
 		this.forceExplosion = forceExplosion;
 		this.forceSoulevante = forceSoulevante;
+		this._projectileDamage = damage;
 	}
 
 	public void setVelocity (float vitesse, Vector3 forceInitiale)
@@ -267,47 +269,39 @@ public class ProjectileBehavior : MonoBehaviour
 
 		if (trans.root.name == "Cars") 
 		{
-			// Carapace Bleue : ne pas exploser si ce n'est pas la première voiture :
+			// Position finale de la carapace :
+			Vector3 positionFinale = transform.position;
+
+			// --- Carapace Bleue : ne pas exploser si ce n'est pas la première voiture ---
+
 			bool exploser = true;
 			if (mode == Mode.TO_THE_TOP) {
 				exploser = (trans == premiereVoiture);
 				Debug.Log("Trans = " + trans + "\nPremier = " + premiereVoiture + "\nExploser ? " + exploser);
 			}
 
-			// Position finale de la carapace :
-			Vector3 positionFinale = transform.position;
-
 			if (exploser) {
 				// Détruire la carapace :
-				Destroy (gameObject);
+				Destroy(gameObject);
 			}
 
-			// Effet visuel de l'explosion : 
+			// --- Effet visuel de l'explosion ---
+
 			GameObject fx = Instantiate (explosion) as GameObject;
 			fx.transform.position = positionFinale;
 			Destroy (fx, 1);
 
+			// --- Exploser sur la voiture touchée ---
+			
+			string nomVoiture = collision.gameObject.name;
+			Rigidbody rb = collision.gameObject.GetComponent<Rigidbody>();
 
-			// Ajouter une force d'explosion aux voitures proches :
-			Collider[] collidersProches = Physics.OverlapSphere (positionFinale, rayonExplosion);
-			for (int i = 0; i < collidersProches.Length; i++) 
+			if (rb != null)
 			{
-				Transform objetProche = collidersProches [i].transform;
-				// Vérifier qu'il s'agisse d'une voiture :
-				if (objetProche.root.name == "Cars") 
-				{
-					string nomVoitureProche = objetProche.parent.parent.name;
-					// Vérifier qu'il s'agisse d'une voiture et non d'une partie d'une voiture :
-					if (nomVoitureProche != "Cars") 
-					{
-						Rigidbody rb = objetProche.parent.parent.GetComponent<Rigidbody> ();
-						if (rb != null) 
-						{
-							rb.AddExplosionForce (forceExplosion, positionFinale, rayonExplosion, forceSoulevante, ForceMode.Impulse);
-							// Debug.Log ("Explosion sur " + nomVoitureProche);
-						}
-					}
-				}
+				rb.AddExplosionForce(forceExplosion, positionFinale, rayonExplosion, forceSoulevante, ForceMode.Impulse);
+
+				// Ajout de dégats au voitures touchées :
+				collision.gameObject.GetComponent<Vie>().addDamage(_projectileDamage);
 			}
 		} 
 
@@ -365,7 +359,6 @@ public class ProjectileBehavior : MonoBehaviour
 
 			if (trans.parent.name == "Inner wall" || trans.parent.name == "Obstacles")
 			{
-				Debug.Log ("hit a wall");
 				MeshRenderer rend = trans.GetComponent<MeshRenderer>();
 
 				// Déterminer le Material courant :
