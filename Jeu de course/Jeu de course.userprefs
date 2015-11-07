@@ -1,16 +1,18 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Cadriciel\Scripts\CheckpointManager.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Cadriciel\Scripts\ProjectileBehavior.cs">
     <Files>
-      <File FileName="Assets\Cadriciel\Scripts\RaceManager.cs" Line="1" Column="1" />
-      <File FileName="Assets\Sample Assets\Vehicles\Car\Scripts\CarController.cs" Line="221" Column="89" />
+      <File FileName="Assets\Cadriciel\Scripts\RaceManager.cs" Line="58" Column="23" />
+      <File FileName="Assets\Sample Assets\Vehicles\Car\Scripts\CarController.cs" Line="1" Column="1" />
       <File FileName="Assets\Cadriciel\Scripts\ProjectileManager.cs" Line="1" Column="1" />
-      <File FileName="Assets\Cadriciel\Scripts\CheckpointManager.cs" Line="60" Column="75" />
-      <File FileName="Assets\Cadriciel\Scripts\ProjectileBehavior.cs" Line="125" Column="78" />
+      <File FileName="Assets\Cadriciel\Scripts\CheckpointManager.cs" Line="63" Column="7" />
+      <File FileName="Assets\Cadriciel\Scripts\ProjectileBehavior.cs" Line="384" Column="13" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="C:\Users\Byakko\Documents\LOG4715_JV\lab2\LOG4715_Lab2\Jeu de course\Assets\Cadriciel\Scripts\ProjectileBehavior.cs" line="383" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>
