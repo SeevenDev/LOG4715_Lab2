@@ -24,22 +24,26 @@ public class ProjectileManager : MonoBehaviour
 	// Vitesses :
 	[SerializeField]
 	private float vitesseVerte = 100.0f;
-
 	[SerializeField]
 	private float vitesseRouge = 80.0f;
-
 	[SerializeField]
 	private float vitesseBleue = 70.0f;
 
 	// Explosion :
 	[SerializeField]
 	private float rayonExplosion = 1.0f;
-	
 	[SerializeField]
 	private float forceExplosion = 2.0f;
-
 	[SerializeField]
 	private float forceSoulevante = 2.0f;
+
+	// Dégâts :
+	[SerializeField]
+	private int degatsVert = 15;
+	[SerializeField]
+	private int degatsRouge = 10;
+	[SerializeField]
+	private int degatsBleu = 30;
 
 	// Carapace Verte :
 	[SerializeField]
@@ -117,7 +121,7 @@ public class ProjectileManager : MonoBehaviour
 			Vector3 vitesseInitiale = transform.forward * vitesseVerte;
 			
 			ProjectileBehavior collider = projectile.AddComponent<ProjectileBehavior> () as ProjectileBehavior;
-			collider.setExplosion (forceExplosion, rayonExplosion, forceSoulevante);
+			collider.setExplosion (forceExplosion, rayonExplosion, forceSoulevante, degatsVert);
 			collider.setVelocity (vitesseVerte, vitesseInitiale);
 			collider.setMode (ProjectileBehavior.Mode.BOUNCING);
 			collider.setNbMaxRebonds (nbMaxRebonds);
@@ -140,7 +144,7 @@ public class ProjectileManager : MonoBehaviour
 			Vector3 vitesseInitiale = transform.forward * vitesseRouge;
 			
 			ProjectileBehavior collider = projectile.AddComponent<ProjectileBehavior> () as ProjectileBehavior;
-			collider.setExplosion (forceExplosion, rayonExplosion, forceSoulevante);
+			collider.setExplosion (forceExplosion, rayonExplosion, forceSoulevante, degatsRouge);
 			collider.setVelocity (vitesseRouge, vitesseInitiale);
 			collider.setHoming(turn, distMaxCible, maxAngle, voituresLayer);
 			collider.setPath(_path_p, currentWaypoint, reachDist);
@@ -164,7 +168,7 @@ public class ProjectileManager : MonoBehaviour
 			Vector3 vitesseInitiale = transform.forward * vitesseBleue;
 			
 			ProjectileBehavior collider = projectile.AddComponent<ProjectileBehavior> () as ProjectileBehavior;
-			collider.setExplosion (forceExplosion, rayonExplosion, forceSoulevante);
+			collider.setExplosion (forceExplosion, rayonExplosion, forceSoulevante, degatsBleu);
 			collider.setVelocity (vitesseBleue, vitesseInitiale);
 			collider.setHoming(turn, distMaxCible, maxAngle, voituresLayer);
 			collider.setPath(_path_p, currentWaypoint, reachDist);

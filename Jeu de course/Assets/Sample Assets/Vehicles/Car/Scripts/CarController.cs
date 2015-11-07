@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class CarController : MonoBehaviour
 {
@@ -56,10 +57,18 @@ public class CarController : MonoBehaviour
     private float maxReversingSpeed;                                                // The maximum reversing speed
 	private bool immobilized;                                                       // Whether the car is accepting inputs.
 
+	// Mec6. Rubberbanding :
 	private float MaxSpeedFactor_rb = 1;
 	public void setMaxSpeedFactor(float facteur)
 	{
 		this.MaxSpeedFactor_rb = facteur;
+	}
+
+	// Mec7. Dégats véhicules :
+	private float sloweringFactor = 1;
+	public void setSloweringFactor(float facteur)
+	{
+		this.sloweringFactor= facteur;
 	}
 
 	// publicly read-only props, useful for GUI, Sound effects, etc.
@@ -146,8 +155,8 @@ public class CarController : MonoBehaviour
 		gameObject.SetActive(true);
 
 		// a few useful speeds are calculated for use later:
-		smallSpeed = MaxSpeedFactor_rb*maxSpeed*0.05f;
-		maxReversingSpeed = MaxSpeedFactor_rb*maxSpeed * advanced.reversingSpeedFactor;
+		smallSpeed = sloweringFactor * MaxSpeedFactor_rb * maxSpeed*0.05f;
+		maxReversingSpeed = sloweringFactor * MaxSpeedFactor_rb * maxSpeed * advanced.reversingSpeedFactor;
 	}
 
 
@@ -218,7 +227,7 @@ public class CarController : MonoBehaviour
 		// current speed is measured in the forward direction of the car (sliding sideways doesn't count!)
 		CurrentSpeed = transform.InverseTransformDirection (rigidbody.velocity).z;
 		// speedfactor is a normalized representation of speed in relation to max speed:
-		SpeedFactor = Mathf.InverseLerp (0, reversing ? maxReversingSpeed : MaxSpeedFactor_rb*maxSpeed, Mathf.Abs (CurrentSpeed));
+		SpeedFactor = Mathf.InverseLerp (0, reversing ? maxReversingSpeed : sloweringFactor * MaxSpeedFactor_rb * maxSpeed, Mathf.Abs (CurrentSpeed));
 		curvedSpeedFactor = reversing ? 0 : CurveFactor (SpeedFactor);
 	}
 
