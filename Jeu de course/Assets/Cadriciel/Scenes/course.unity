@@ -8834,6 +8834,7 @@ GameObject:
   - 114: {fileID: 481286558}
   - 114: {fileID: 481286559}
   - 114: {fileID: 481286560}
+  - 114: {fileID: 481286561}
   m_Layer: 8
   m_Name: Joueur 1
   m_TagString: Player
@@ -9033,6 +9034,9 @@ MonoBehaviour:
   rayonExplosion: 1
   forceExplosion: 1
   forceSoulevante: 5
+  degatsVert: 15
+  degatsRouge: 10
+  degatsBleu: 30
   nbMaxRebonds: 3
   turn: 5
   distMaxCible: 200
@@ -9052,6 +9056,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   virage: {fileID: 1688920499}
+--- !u!114 &481286561
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 481286549}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3271dfbff1e010a4ca943343fcda3410, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &484529698
 GameObject:
   m_ObjectHideFlags: 0
@@ -19196,6 +19211,7 @@ GameObject:
   - 114: {fileID: 981142455}
   - 114: {fileID: 981142454}
   - 114: {fileID: 981142461}
+  - 114: {fileID: 981142462}
   m_Layer: 8
   m_Name: Voiture orange
   m_TagString: Player
@@ -19396,6 +19412,17 @@ MonoBehaviour:
   - {fileID: 1577723869}
   - {fileID: 291294131}
   childrenOfThisObject: 0
+--- !u!114 &981142462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 981142452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3271dfbff1e010a4ca943343fcda3410, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &982943094
 GameObject:
   m_ObjectHideFlags: 0
@@ -27724,6 +27751,7 @@ GameObject:
   - 114: {fileID: 1368033984}
   - 114: {fileID: 1368033983}
   - 114: {fileID: 1368033982}
+  - 114: {fileID: 1368033989}
   m_Layer: 8
   m_Name: Voiture jaune
   m_TagString: Player
@@ -27924,6 +27952,17 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &1368033989
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1368033979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3271dfbff1e010a4ca943343fcda3410, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1371417689
 GameObject:
   m_ObjectHideFlags: 0
@@ -31504,6 +31543,7 @@ GameObject:
   - 114: {fileID: 1635867387}
   - 114: {fileID: 1635867386}
   - 114: {fileID: 1635867385}
+  - 114: {fileID: 1635867392}
   m_Layer: 8
   m_Name: Voiture rouge
   m_TagString: Player
@@ -31704,6 +31744,17 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &1635867392
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1635867382}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3271dfbff1e010a4ca943343fcda3410, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1636046887
 GameObject:
   m_ObjectHideFlags: 0
@@ -35483,6 +35534,7 @@ GameObject:
   - 114: {fileID: 1881066734}
   - 114: {fileID: 1881066733}
   - 114: {fileID: 1881066732}
+  - 114: {fileID: 1881066741}
   m_Layer: 8
   m_Name: Voiture bleue
   m_TagString: Player
@@ -35683,6 +35735,17 @@ Transform:
   - {fileID: 937635322}
   m_Father: {fileID: 1158375331}
   m_RootOrder: 4
+--- !u!114 &1881066741
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1881066731}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3271dfbff1e010a4ca943343fcda3410, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1885422050
 GameObject:
   m_ObjectHideFlags: 0
@@ -38379,6 +38442,7 @@ GameObject:
   - 114: {fileID: 1977983686}
   - 114: {fileID: 1977983685}
   - 114: {fileID: 1977983689}
+  - 114: {fileID: 1977983692}
   m_Layer: 8
   m_Name: Joueur 2
   m_TagString: Player
@@ -38546,6 +38610,17 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &1977983692
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1977983683}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3271dfbff1e010a4ca943343fcda3410, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1988760123
 GameObject:
   m_ObjectHideFlags: 0
@@ -39804,6 +39879,7 @@ GameObject:
   - 114: {fileID: 2042105155}
   - 114: {fileID: 2042105154}
   - 114: {fileID: 2042105153}
+  - 114: {fileID: 2042105160}
   m_Layer: 8
   m_Name: Voiture verte
   m_TagString: Player
@@ -40004,6 +40080,17 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &2042105160
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2042105150}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3271dfbff1e010a4ca943343fcda3410, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2047550981
 GameObject:
   m_ObjectHideFlags: 0
@@ -40840,6 +40927,7 @@ GameObject:
   - 114: {fileID: 2099699821}
   - 114: {fileID: 2099699820}
   - 114: {fileID: 2099699819}
+  - 114: {fileID: 2099699826}
   m_Layer: 8
   m_Name: Voiture blanche
   m_TagString: Player
@@ -41040,6 +41128,17 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &2099699826
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2099699816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3271dfbff1e010a4ca943343fcda3410, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2099877694
 Prefab:
   m_ObjectHideFlags: 0

@@ -10,6 +10,7 @@ public class Vie : MonoBehaviour
 	private int _maxVie = 100, _vie;
 	private int _seuilRalentissement = 30;
 	private float _pourcentageRalentissement = 0.30f;
+	private GUITexture _barre;
 
 	// ==========================================
 	// == Start
@@ -18,6 +19,7 @@ public class Vie : MonoBehaviour
 	void Start ()
 	{
 		_vie = _maxVie;
+		_barre = Instantiate(Resources.Load("healthbar")) as GUITexture;
 	}
 
 	// ==========================================
@@ -28,7 +30,7 @@ public class Vie : MonoBehaviour
 	{
 		// === Afficher la barre de vie ===
 
-
+		// http://forum.unity3d.com/threads/health-bar-over-enemy.26014/
 
 		// === Vérifier si la voiture doit être ralentie ou non ===
 
