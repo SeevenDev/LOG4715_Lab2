@@ -14,7 +14,13 @@ public class NitroGauge : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		this.enabled = false;
+		StartCoroutine (enableNitro());
+	}
 
+	IEnumerator enableNitro(){
+		yield return new WaitForSeconds(3);
+		this.enabled = true;
 	}
 	
 	// Update is called once per frame
