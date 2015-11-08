@@ -44,6 +44,9 @@ public class CarUserControlMP : MonoBehaviour
 	[SerializeField]
 	private Speedometer speedNeedle;
 
+	[SerializeField]
+	private int _degatCrash = 10;
+
 	// ==========================================
 	// == Awake
 	// ==========================================
@@ -142,6 +145,7 @@ public class CarUserControlMP : MonoBehaviour
 	void OnCollisionEnter(Collision theCollision)
 	{
 		string rootName = theCollision.transform.root.name;
+		string parentName = theCollision.transform.parent.name;
 		if (rootName == "Cars")
 		{
 			// On comptabilise la figure
@@ -149,8 +153,20 @@ public class CarUserControlMP : MonoBehaviour
 			string name = theCollision.transform.name;
 			styleManager.logStyle (20, "Crash !");
 			voituresEnFrolage[name] = new Frolage(true, true);
-			Debug.Log("Crash avec " + name);
-		} 
+
+			// On enlève des dégâts aux 2 voitures :
+			gameObject.GetComponent<Vie>().addDamage(_degatCrash);
+			theCollision.gameObject.GetComponent<Vie>().addDamage(_degatCrash);
+		}
+
+		else if (parentName == "Inner wall"
+				 || parentName== "Outer wall"
+				 || parentName== "Obstacles"
+				 || parentName == "Goal Posts")
+		{
+			// On enlève des dégâts au joueur  :
+			gameObject.GetComponent<Vie>().addDamage(_degatCrash);
+		}
 	}
 	void OnCollisionExit(Collision theCollision)
 	{
