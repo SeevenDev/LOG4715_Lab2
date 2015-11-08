@@ -20,7 +20,7 @@ public class NitroGauge : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		Debug.Log (progress);
+		// Debug.Log (progress);
 
 		if (progress >= 100)
 			progress = 100;
