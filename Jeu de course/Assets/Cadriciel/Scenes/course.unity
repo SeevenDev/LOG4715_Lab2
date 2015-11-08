@@ -15714,11 +15714,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 471952, guid: d52278e3ea9867943ba4d7a7bdd40c0c, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 471952, guid: d52278e3ea9867943ba4d7a7bdd40c0c, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 1
+      value: .600000024
       objectReference: {fileID: 0}
     - target: {fileID: 471952, guid: d52278e3ea9867943ba4d7a7bdd40c0c, type: 2}
       propertyPath: m_LocalPosition.z
@@ -15747,6 +15747,22 @@ Prefab:
     - target: {fileID: 11471952, guid: d52278e3ea9867943ba4d7a7bdd40c0c, type: 2}
       propertyPath: _nitro
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 471952, guid: d52278e3ea9867943ba4d7a7bdd40c0c, type: 2}
+      propertyPath: m_LocalScale.x
+      value: .100000001
+      objectReference: {fileID: 0}
+    - target: {fileID: 471952, guid: d52278e3ea9867943ba4d7a7bdd40c0c, type: 2}
+      propertyPath: m_LocalScale.y
+      value: .0500000007
+      objectReference: {fileID: 0}
+    - target: {fileID: 13171952, guid: d52278e3ea9867943ba4d7a7bdd40c0c, type: 2}
+      propertyPath: m_PixelInset.x
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 13171952, guid: d52278e3ea9867943ba4d7a7bdd40c0c, type: 2}
+      propertyPath: m_PixelInset.y
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 11471952, guid: d52278e3ea9867943ba4d7a7bdd40c0c, type: 2}
@@ -19723,6 +19739,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 942176462}
   - 131: {fileID: 942176463}
+  - 132: {fileID: 942176464}
   m_Layer: 0
   m_Name: NitroGauge
   m_TagString: Untagged
@@ -19737,8 +19754,8 @@ Transform:
   m_PrefabInternal: {fileID: 808751480}
   m_GameObject: {fileID: 942176461}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1, y: 1, z: 0}
-  m_LocalScale: {x: 0, y: 0, z: 1}
+  m_LocalPosition: {x: 0, y: .600000024, z: 0}
+  m_LocalScale: {x: .100000001, y: .0500000007, z: 1}
   m_Children: []
   m_Father: {fileID: 1305879589}
   m_RootOrder: 8
@@ -19754,14 +19771,37 @@ GUITexture:
   m_Color: {r: .862069011, g: 1, b: 0, a: .501960814}
   m_PixelInset:
     serializedVersion: 2
-    x: -670
-    y: -150
+    x: 45
+    y: 0
     width: 100
     height: 5
   m_LeftBorder: 0
   m_RightBorder: 0
   m_TopBorder: 0
   m_BottomBorder: 0
+--- !u!132 &942176464
+GUIText:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 942176461}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Text: Nitro
+  m_Anchor: 6
+  m_Alignment: 0
+  m_PixelOffset: {x: 0, y: 10}
+  m_LineSpacing: 1
+  m_TabSize: 4
+  m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+  m_Material: {fileID: 0}
+  m_FontSize: 20
+  m_FontStyle: 0
+  m_Color:
+    serializedVersion: 2
+    rgba: 4278255601
+  m_PixelCorrect: 1
+  m_RichText: 1
 --- !u!1 &949470370
 GameObject:
   m_ObjectHideFlags: 0
