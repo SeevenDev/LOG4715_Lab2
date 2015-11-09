@@ -26,7 +26,7 @@ public class OutOfBounds : MonoBehaviour
 	{
 		// === Voiture : replacer au Waypoint le plus proche ===
 
-		if (col.transform.parent.parent.name == "Joueur 1")
+		if (col.attachedRigidbody != null && col.attachedRigidbody.tag == "Player")
 		{
 			Transform voiture = col.transform.parent.parent.transform;
 
