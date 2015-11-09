@@ -32,7 +32,7 @@ public class NitroGauge : MonoBehaviour {
 		if (progress <= 0)
 			progress = 0;
 
-		if (Input.GetKey ("x") && progress > 10) {
+		if (Input.GetButton ("Nitro") && progress > 10) {
 			transform.rigidbody.AddForce (transform.forward * nitroForce);
 			progress -= 3;
 		}
