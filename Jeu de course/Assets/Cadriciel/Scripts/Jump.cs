@@ -22,6 +22,7 @@ public class Jump : MonoBehaviour
 
 		if (Input.GetButtonDown("Jump") && grounded)
 		{
+			rigidbody.velocity = new Vector3(rigidbody.velocity.x, 0, rigidbody.velocity.z);
 			rigidbody.AddForce(new Vector3(0, _jumpForce, 0), ForceMode.Impulse);
 		}
     }
