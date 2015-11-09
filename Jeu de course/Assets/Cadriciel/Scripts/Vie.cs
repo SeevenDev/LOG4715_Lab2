@@ -13,10 +13,14 @@ public class Vie : MonoBehaviour
 	// ==========================================
 
 	// Vie :
-	private int _maxVie = 100, _vie;
+	[SerializeField]
+	private int _maxVie = 100;
+	private int _vie;
 
 	// Ralentissement :
+	[SerializeField]
 	private int _seuilRalentissement = 30;
+	[SerializeField]
 	private float _pourcentageRalentissement = 0.30f;
 
 	// Barre de vie :

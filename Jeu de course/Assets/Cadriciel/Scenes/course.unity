@@ -10533,6 +10533,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3271dfbff1e010a4ca943343fcda3410, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _maxVie: 100
+  _seuilRalentissement: 30
+  _pourcentageRalentissement: .300000012
 --- !u!114 &481286562
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22878,6 +22881,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3271dfbff1e010a4ca943343fcda3410, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _maxVie: 100
+  _seuilRalentissement: 30
+  _pourcentageRalentissement: .300000012
 --- !u!1 &982943094
 GameObject:
   m_ObjectHideFlags: 0
@@ -32928,6 +32934,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3271dfbff1e010a4ca943343fcda3410, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _maxVie: 100
+  _seuilRalentissement: 30
+  _pourcentageRalentissement: .300000012
 --- !u!1 &1369902831
 GameObject:
   m_ObjectHideFlags: 0
@@ -37778,6 +37787,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3271dfbff1e010a4ca943343fcda3410, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _maxVie: 100
+  _seuilRalentissement: 30
+  _pourcentageRalentissement: .300000012
 --- !u!1 &1636046887
 GameObject:
   m_ObjectHideFlags: 0
@@ -42309,6 +42321,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3271dfbff1e010a4ca943343fcda3410, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _maxVie: 100
+  _seuilRalentissement: 30
+  _pourcentageRalentissement: .300000012
 --- !u!1 &1885422050
 GameObject:
   m_ObjectHideFlags: 0
@@ -45738,6 +45753,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3271dfbff1e010a4ca943343fcda3410, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _maxVie: 100
+  _seuilRalentissement: 30
+  _pourcentageRalentissement: .300000012
 --- !u!1 &1988760123
 GameObject:
   m_ObjectHideFlags: 0
@@ -47260,6 +47278,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3271dfbff1e010a4ca943343fcda3410, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _maxVie: 100
+  _seuilRalentissement: 30
+  _pourcentageRalentissement: .300000012
 --- !u!1001 &2046631047
 Prefab:
   m_ObjectHideFlags: 0
@@ -48442,6 +48463,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3271dfbff1e010a4ca943343fcda3410, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _maxVie: 100
+  _seuilRalentissement: 30
+  _pourcentageRalentissement: .300000012
 --- !u!1001 &2099877694
 Prefab:
   m_ObjectHideFlags: 0
