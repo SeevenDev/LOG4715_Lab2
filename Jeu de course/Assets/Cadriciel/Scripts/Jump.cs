@@ -25,6 +25,22 @@ public class Jump : MonoBehaviour
 			rigidbody.velocity = new Vector3(rigidbody.velocity.x, 0, rigidbody.velocity.z);
 			rigidbody.AddForce(new Vector3(0, _jumpForce, 0), ForceMode.Impulse);
 		}
+
+		// === Air Control ===
+		if (!grounded) {  // Si le joueur est en l'air
+			if (Input.GetAxis("Horizontal") > 0) {
+				transform.Rotate(0.0f, 5.0f, 0.0f);
+			}
+			if (Input.GetAxis("Horizontal") < 0) {
+				transform.Rotate(0.0f, -5.0f, 0.0f);
+			}
+			if (Input.GetAxis("Vertical") > 0) {
+				transform.Rotate(5.0f, 0.0f, 0.0f);
+			}
+			if (Input.GetAxis("Vertical") < 0) {
+				transform.Rotate(-5.0f, 0.0f, 0.0f);
+			}
+		}
     }
 
 	// ==========================================
