@@ -4,7 +4,7 @@ using System.Collections;
 public class SpeedBooster : MonoBehaviour {
 
 	[SerializeField]
-	private float boostForce = 1000;
+	private float boostForce = 100.0f;
 
 	// Use this for initialization
 	void Start () {
@@ -16,12 +16,12 @@ public class SpeedBooster : MonoBehaviour {
 
 	}
 
-	void OnCollisionEnter (Collision col)
+	void OnTriggerEnter (Collider col)
 	{
-		if(col.gameObject.transform.parent.name == "Cars")
+		if (col.attachedRigidbody != null && col.attachedRigidbody.tag == "Player")
 		{
-			GameObject joueur = col.gameObject;
-			joueur.transform.rigidbody.AddForce(joueur.transform.forward * boostForce);
+			Transform joueur = col.attachedRigidbody.transform;
+			joueur.rigidbody.AddForce(joueur.forward * boostForce, ForceMode.Impulse);
 		}
 	}
 	
