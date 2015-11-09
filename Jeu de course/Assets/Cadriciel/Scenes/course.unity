@@ -10299,6 +10299,7 @@ GameObject:
   - 114: {fileID: 481286560}
   - 114: {fileID: 481286561}
   - 114: {fileID: 481286562}
+  - 114: {fileID: 481286563}
   m_Layer: 8
   m_Name: Joueur 1
   m_TagString: Player
@@ -10546,6 +10547,18 @@ MonoBehaviour:
   progress: 100
   nitroForce: 100
   _nitro: {fileID: 942176463}
+--- !u!114 &481286563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 481286549}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dab284dcc4ff0b84b8e8128193e72d2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _jumpForce: 10
 --- !u!1 &483842611
 GameObject:
   m_ObjectHideFlags: 0
@@ -22487,7 +22500,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400004, guid: baec086904791744185aaa07a6cf55c2, type: 2}
       propertyPath: m_LocalRotation.x
-      value: 6.70640952e-13
+      value: -1.32381363e-16
       objectReference: {fileID: 0}
     - target: {fileID: 400004, guid: baec086904791744185aaa07a6cf55c2, type: 2}
       propertyPath: m_LocalRotation.y
@@ -22495,7 +22508,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400004, guid: baec086904791744185aaa07a6cf55c2, type: 2}
       propertyPath: m_LocalRotation.z
-      value: 5.70817227e-10
+      value: 2.46732829e-10
       objectReference: {fileID: 0}
     - target: {fileID: 400004, guid: baec086904791744185aaa07a6cf55c2, type: 2}
       propertyPath: m_LocalRotation.w
@@ -41718,7 +41731,7 @@ Transform:
   m_PrefabParentObject: {fileID: 400004, guid: baec086904791744185aaa07a6cf55c2, type: 2}
   m_PrefabInternal: {fileID: 970742417}
   m_GameObject: {fileID: 1873886570}
-  m_LocalRotation: {x: 6.70640952e-13, y: .00206974451, z: 5.70817227e-10, w: .999997854}
+  m_LocalRotation: {x: -1.32381363e-16, y: .00206974451, z: 2.46732829e-10, w: .999997854}
   m_LocalPosition: {x: 1.9936142, y: .0030002594, z: 24.5943527}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
