@@ -7,7 +7,7 @@ public class NitroGauge : MonoBehaviour {
 	private float progress = 100;
 
 	[SerializeField]
-	private float nitroForce = 100;
+	private float nitroForce = 50;
 
 	[SerializeField]
 	private GUITexture _nitro;
