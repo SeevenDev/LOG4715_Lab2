@@ -49,6 +49,7 @@
      <Compile Include="Assets\Cadriciel\Scripts\CarUserControlMP.cs" />
      <Compile Include="Assets\Cadriciel\Scripts\Checkpoint.cs" />
      <Compile Include="Assets\Cadriciel\Scripts\CheckpointManager.cs" />
+     <Compile Include="Assets\Cadriciel\Scripts\Healer.cs" />
      <Compile Include="Assets\Cadriciel\Scripts\MultiplayerMode.cs" />
      <Compile Include="Assets\Cadriciel\Scripts\NitroGauge.cs" />
      <Compile Include="Assets\Cadriciel\Scripts\OutOfBounds.cs" />
