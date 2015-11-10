@@ -103,8 +103,6 @@ public class ProjectileBehavior : MonoBehaviour
 				}
 			}
 
-			// Debug.Log ("Aiming : " + cible);
-
 			// --- Poursuite de la cible / du waypoint ---
 
 			// Déterminer la rotation de la carapace (ce qui influe sa direction) :
@@ -248,8 +246,6 @@ public class ProjectileBehavior : MonoBehaviour
 					distance = diff;
 					cible = joueurs[i].transform;
 
-					Debug.Log ("Cible : " + joueurs[i].transform.name);
-
 					return true;
 				}
 			}
@@ -277,7 +273,6 @@ public class ProjectileBehavior : MonoBehaviour
 			bool exploser = true;
 			if (mode == Mode.TO_THE_TOP) {
 				exploser = (trans == premiereVoiture);
-				Debug.Log("Trans = " + trans + "\nPremier = " + premiereVoiture + "\nExploser ? " + exploser);
 			}
 
 			if (exploser) {

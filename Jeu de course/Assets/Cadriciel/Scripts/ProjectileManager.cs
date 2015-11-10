@@ -98,12 +98,9 @@ public class ProjectileManager : MonoBehaviour
 		for (int i = 0; i < _path_v.Length; i ++) {
 			if ((_path_v[i].position - transform.position).magnitude < reachDist) {
 				// Cibler le waypoint suivant (en boucle) :
-				// Debug.Log ("Waypoint " + i + " passé");
 				currentWaypoint = (i+1) % _path_v.Length;
 			}
 		}
-
-		// Debug.Log ("waypoint courant : " + currentWaypoint);
 
 		// --- Carapace Verte ---
 

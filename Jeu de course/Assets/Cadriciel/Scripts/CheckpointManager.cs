@@ -59,8 +59,6 @@ public class CheckpointManager : MonoBehaviour
 			Vector3 velo = cars[i].rigidbody.velocity;
 			float facteur = Mathf.Log(i+10, 10); // Premier = 1 : pas de changement
 			cars[i].setMaxSpeedFactor(facteur);
-
-			// Debug.Log (cars[i].name + " : " + cars[i].MaxSpeed + "*" + facteur + " = " + facteur * cars[i].MaxSpeed);
 		}
 	}
 
@@ -77,7 +75,6 @@ public class CheckpointManager : MonoBehaviour
 				{
 					carData.checkPoint = checkPointIndex;
 					carData.lap += 1;
-					Debug.Log(car.name + " lap " + carData.lap);
 
 					// Mettre à jour le tour le plus avancé :
 					if (carData.lap > _currentMaxLap) {

@@ -62,7 +62,6 @@ public class OutOfBounds : MonoBehaviour
 
 		else if (col.gameObject.transform.name.StartsWith("Carapace"))
 		{
-			Debug.Log("Bye bye Shellie");
 			Destroy(col.gameObject);
 		}
 

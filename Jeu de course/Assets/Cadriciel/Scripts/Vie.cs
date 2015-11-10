@@ -104,8 +104,6 @@ public class Vie : MonoBehaviour
 			_vie -= dmg;
 		else
 			_vie = 0;
-
-		Debug.Log("-" + dmg + " : " + _vie + " hp pour " + gameObject.name);
 	}
 
 	public void addHealth(int h)
@@ -114,7 +112,5 @@ public class Vie : MonoBehaviour
 			_vie += h;
 		else
 			_vie = _maxVie;
-
-		Debug.Log("+" + h + " : " + _vie + " hp pour " + gameObject.name);
 	}
 }

@@ -60,21 +60,9 @@ public class StyleManager : MonoBehaviour
 
 	void Start()
 	{
-		Debug.Log ("Start de StyleManager");
 		_points = 0;
 		updateStyle ();
-		// StartCoroutine (testCorout());
 	}
-
-	/* IEnumerator testCorout() {
-		logStyle (100, "Beau début");
-
-		yield return new WaitForSeconds (1.0f);
-		logStyle (300, "Cascade LOURDE");
-
-		yield return new WaitForSeconds (1.0f);
-		logStyle (1000, "Frolage");
-	} */
 
 	void updateStyle() {
 		_totalAfficheur.text = _points.ToString() + " pts";
